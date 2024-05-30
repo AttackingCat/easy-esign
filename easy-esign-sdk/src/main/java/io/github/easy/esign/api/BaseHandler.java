@@ -30,14 +30,6 @@ public final class BaseHandler {
             config = ESignManager.getConfig();
         }
         BaseHandler.config = config;
-        if (StrUtil.isBlank(config.getSecret())) {
-            log.error("初始化失败，缺少必要配置！");
-            throw new ESignExecution("secret is empty");
-        }
-        if (StrUtil.isBlank(config.getAppId())) {
-            log.error("初始化失败，缺少必要配置！");
-            throw new ESignExecution("appId is empty");
-        }
         if (!config.getLazyInit()) {
             init();
         }
@@ -57,9 +49,9 @@ public final class BaseHandler {
     private void init() {
         httpClient = new OkHttpClient().newBuilder()
                 .addInterceptor(chain -> {
-                    log.info("method: %s", chain.request().method());
-                    log.info("url: %s", chain.request().url().url());
-                    log.info("headers: \n%s", chain.request().headers());
+                    log.debug("method: %s", chain.request().method());
+                    log.debug("url: %s", chain.request().url().url());
+                    log.debug("headers: \n%s", chain.request().headers());
                     return chain.proceed(chain.request());
                 })
                 .build();
@@ -129,7 +121,7 @@ public final class BaseHandler {
             throw new ESignExecution(e);
         }
         if (!r.isSuccessful()) {
-            log.error("请求异常: " + r);
+            log.error("request err: " + r);
             return null;
         }
 

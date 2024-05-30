@@ -4,6 +4,8 @@ import io.github.easy.esign.api.BaseHandler;
 import io.github.easy.esign.core.config.ESignConfig;
 import io.github.easy.esign.core.config.ESignConfigFactory;
 import io.github.easy.esign.core.error.ESignExecution;
+import io.github.easy.esign.core.log.Logger;
+import io.github.easy.esign.core.log.LoggerFactory;
 import io.github.easy.esign.utils.StrUtil;
 
 import java.lang.reflect.Constructor;
@@ -20,11 +22,25 @@ public class ESignManager {
 
     private final static ConcurrentHashMap<String, Object> services = new ConcurrentHashMap<>();
 
+    private final static Logger logger = LoggerFactory.getLogger(ESignManager.class);
+
     public static void setConfig(ESignConfig config) {
         ESignManager.config = config;
-        // 打印 banner
-        if (config != null && config.getPrintBanner()) {
-            StrUtil.printEasyEsign();
+
+        if (!configCheck(config)) {
+            ESignManager.config = null;
+            if (!configCheck(getConfig())) {
+                String msg = "Configuration file not found,please check your config file,appId and secret must be not null";
+                logger.error(msg);
+                throw new ESignExecution(msg);
+            }
+             if (config.getPrintBanner()) {
+                // 打印 banner
+                StrUtil.printEasyEsign();
+            }
+            logger.info("ESign AppId: %s", ESignManager.config.getAppId());
+            logger.info("ESign SandBox: %s", ESignManager.config.getSandbox());
+            logger.info("Log use: %s",logger.getClass());
         }
     }
 
@@ -86,5 +102,11 @@ public class ESignManager {
             }
         }
         throw new ESignExecution("can not find constructor" + clazz.getName());
+    }
+
+    private static boolean configCheck(ESignConfig config) {
+        if (config == null) {
+            return false;
+        } else return config.getAppId() != null && config.getSecret() != null;
     }
 }

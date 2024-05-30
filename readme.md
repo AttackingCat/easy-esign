@@ -44,10 +44,13 @@ esign-v3:
   print-banner: true #打印banner图
   callback-url: #回调地址配置集合，如下
     sign-flow: https://www.123.com/ #这里的sign-flow为自定义key
+logging:
+  level:
+    io.github.easy.esign: info #日志级别，推荐info，打印参数地址和返回值
 ```
 
 - 配置文件，不用springboot自动加载的需要在resources下创建文件esign-v3.properties
-```yaml
+```properties
 esign-v3.app-id=
 esign-v3.secret=
 esign-v3.sandbox=true
@@ -72,6 +75,6 @@ ESignOrgAuthSrv signOrgAuthSrv = ESignOrgAuthSrv.getInstance();
 ESignResp<OrgIdentityInfoResp> orgIdentityInfoResponseESignResp = signOrgAuthSrv.identityInfo(orgIdentityInfoReq);
 ```
 ### 依赖引入（待发布）
->
+> 
 > 
 #### 鸣谢，项目灵感来源于 https://github.com/psoho/fastesign 因业务需要在其基础上做了大量扩展

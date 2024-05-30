@@ -2,6 +2,8 @@ package io.github.easy.esign.core.config;
 
 import lombok.Data;
 
+import java.util.Map;
+
 @Data
 public class ESignConfig {
 
@@ -29,4 +31,9 @@ public class ESignConfig {
      * 打印banner
      */
     Boolean printBanner = true;
+
+    /**
+     * 自定义回调地址
+     */
+    Map<String,String> callBackUrl;
 }

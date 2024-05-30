@@ -1,9 +1,12 @@
 package io.github.easy.esign.core.config;
 
 import io.github.easy.esign.core.error.ESignExecution;
+import kotlin.reflect.KVariance;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 
@@ -16,11 +19,11 @@ public class ESignConfigFactory {
     }
 
     public static ESignConfig createConfig(String path) {
-        Properties properties = readPropToMap(path);
+        Properties properties = readProperties(path);
         return parser(properties);
     }
 
-    private static Properties readPropToMap(String propertiesPath) {
+    private static Properties readProperties(String propertiesPath) {
         try {
             InputStream is = ESignConfigFactory.class.getClassLoader().getResourceAsStream(propertiesPath);
             if (is == null) {
@@ -54,6 +57,15 @@ public class ESignConfigFactory {
         Optional.ofNullable(properties.get("esign-v3.printBanner")).ifPresent(printBanner -> {
             config.setPrintBanner(Boolean.valueOf(printBanner.toString()));
         });
+        Map<String, String> callbackUrl = new HashMap<>();
+        properties.forEach((k, v) -> {
+            String str = k.toString();
+            String prefix = "esign-v3.callback-url.";
+            if (str.contains(prefix)) {
+                callbackUrl.put(str.replace(prefix, ""), v.toString());
+            }
+        });
+        config.setCallBackUrl(callbackUrl);
         return config;
     }
 
