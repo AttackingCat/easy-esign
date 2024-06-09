@@ -1,29 +1,34 @@
-package io.github.easy.esign.api;
+package io.github.easy.esign.core.api;
 
-import io.github.easy.esign.core.ESignManager;
+import io.github.easy.esign.core.BaseExecute;
+import io.github.easy.esign.core.api.abs.SrvTemp;
 import io.github.easy.esign.struct.auth.resp.AuthorizedInfoResp;
 import io.github.easy.esign.struct.auth.resp.PsnIdentityInfoResp;
 import io.github.easy.esign.struct.ESignResp;
 import io.github.easy.esign.struct.auth.req.PsnAuthReq;
 import io.github.easy.esign.struct.auth.resp.PsnAuthResp;
 import io.github.easy.esign.struct.auth.req.PsnIdentityInfoReq;
+import io.github.easy.esign.utils.UrlUtil;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Synchronized;
 
 
 /**
  * 授权认证
  */
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class ESignPsnAuthSrv {
+public class PsnAuthSrv extends SrvTemp {
 
-    private static volatile ESignPsnAuthSrv INSTANCE;
+    private static final BaseExecute execute = getExecute(DocTemplateSrv.class);
+    private static PsnAuthSrv instance;
 
-    public static synchronized ESignPsnAuthSrv getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new ESignPsnAuthSrv();
+    @Synchronized
+    public static PsnAuthSrv getInstance() {
+        if (instance == null) {
+            instance = new PsnAuthSrv();
         }
-        return INSTANCE;
+        return instance;
     }
 
     /**
@@ -36,7 +41,7 @@ public class ESignPsnAuthSrv {
      */
     public ESignResp<PsnAuthResp> authUrl(PsnAuthReq request) {
         String path = "/v3/psn-auth-url";
-        return ESignManager.getContext().post(path, request, PsnAuthResp.class);
+        return execute.post(path, request, PsnAuthResp.class);
     }
 
     /**
@@ -48,8 +53,8 @@ public class ESignPsnAuthSrv {
      * @return
      */
     public ESignResp<PsnIdentityInfoResp> identityInfo(PsnIdentityInfoReq request) {
-        String path = "/v3/persons/identity-info?" + request.toParam();
-        return ESignManager.getContext().get(path, PsnIdentityInfoResp.class);
+        String path = "/v3/persons/identity-info" +  UrlUtil.toParam(request);
+        return execute.get(path, PsnIdentityInfoResp.class);
     }
 
 
@@ -63,7 +68,7 @@ public class ESignPsnAuthSrv {
      */
     public ESignResp<AuthorizedInfoResp> authorizedInfo(String psnId) {
         String path = "/v3/persons/" + psnId + "authorized-info";
-        return ESignManager.getContext().get(path, AuthorizedInfoResp.class);
+        return execute.get(path, AuthorizedInfoResp.class);
     }
 
 }

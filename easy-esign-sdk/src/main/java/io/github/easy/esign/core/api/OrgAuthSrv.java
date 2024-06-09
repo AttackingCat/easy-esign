@@ -1,29 +1,34 @@
-package io.github.easy.esign.api;
+package io.github.easy.esign.core.api;
 
-import io.github.easy.esign.core.ESignManager;
+import io.github.easy.esign.core.BaseExecute;
+import io.github.easy.esign.core.api.abs.SrvTemp;
 import io.github.easy.esign.struct.ESignResp;
 import io.github.easy.esign.struct.auth.resp.AuthorizedInfoResp;
 import io.github.easy.esign.struct.auth.resp.OrgAuthResp;
 import io.github.easy.esign.struct.auth.resp.OrgIdentityInfoResp;
 import io.github.easy.esign.struct.auth.req.OrgAuthReq;
 import io.github.easy.esign.struct.auth.req.OrgIdentityInfoReq;
+import io.github.easy.esign.utils.UrlUtil;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Synchronized;
 
 
 /**
  * 授权认证
  */
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class ESignOrgAuthSrv {
+public class OrgAuthSrv extends SrvTemp {
 
-    private static volatile ESignOrgAuthSrv INSTANCE;
+    private static final BaseExecute execute = getExecute(OrgAuthSrv.class);
+    private static OrgAuthSrv instance;
 
-    public static synchronized ESignOrgAuthSrv getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new ESignOrgAuthSrv();
+    @Synchronized
+    public static OrgAuthSrv getInstance() {
+        if (instance == null) {
+            instance = new OrgAuthSrv();
         }
-        return INSTANCE;
+        return instance;
     }
 
     /**
@@ -36,7 +41,7 @@ public class ESignOrgAuthSrv {
      */
     public ESignResp<OrgAuthResp> authUrl(OrgAuthReq request) {
         String path = "/v3/org-auth-url";
-        return ESignManager.getContext().post(path, request, OrgAuthResp.class);
+        return execute.post(path, request, OrgAuthResp.class);
     }
 
     /**
@@ -48,8 +53,8 @@ public class ESignOrgAuthSrv {
      * @return
      */
     public ESignResp<OrgIdentityInfoResp> identityInfo(OrgIdentityInfoReq request) {
-        String path = "/v3/organizations/identity-info?" + request.toParam();
-        return ESignManager.getContext().get(path, OrgIdentityInfoResp.class);
+        String path = "/v3/organizations/identity-info" + UrlUtil.toParam(request);
+        return execute.get(path, OrgIdentityInfoResp.class);
     }
 
 
@@ -63,7 +68,7 @@ public class ESignOrgAuthSrv {
      */
     public ESignResp<AuthorizedInfoResp> authorizedInfo(String orgId) {
         String path = "/v3/organizations/" + orgId + "authorized-info";
-        return ESignManager.getContext().get(path, AuthorizedInfoResp.class);
+        return execute.get(path, AuthorizedInfoResp.class);
     }
 
 }

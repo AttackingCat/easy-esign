@@ -1,28 +1,34 @@
-package io.github.easy.esign.api;
+package io.github.easy.esign.core.api;
 
-import io.github.easy.esign.core.ESignManager;
+import io.github.easy.esign.core.BaseExecute;
+import io.github.easy.esign.core.api.abs.SrvTemp;
 import io.github.easy.esign.struct.ESignResp;
 import io.github.easy.esign.struct.doc.resp.FilesCreateByDocTemplateReq;
 import io.github.easy.esign.struct.sign.resp.*;
 import io.github.easy.esign.struct.sign.req.SignFlowCreateByFileReq;
 import io.github.easy.esign.struct.sign.req.SignFlowSignUrlReq;
 import io.github.easy.esign.struct.sign.req.SignflowsSignfieldsPlatformSignReq;
+import io.github.easy.esign.utils.UrlUtil;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import io.github.easy.esign.struct.doc.resp.FilesCreateByDocTemplateResp;
+import lombok.Synchronized;
 
 /**
  * 签署
  */
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class ESignSignFlowSrv {
-    private static volatile ESignSignFlowSrv INSTANCE;
+public class SignFlowSrv extends SrvTemp {
 
-    public static synchronized ESignSignFlowSrv getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new ESignSignFlowSrv();
+    private static final BaseExecute execute = getExecute(DocTemplateSrv.class);
+    private static SignFlowSrv instance;
+
+    @Synchronized
+    public static SignFlowSrv getInstance() {
+        if (instance == null) {
+            instance = new SignFlowSrv();
         }
-        return INSTANCE;
+        return instance;
     }
 
     /**
@@ -33,7 +39,7 @@ public class ESignSignFlowSrv {
      */
     public ESignResp<FilesCreateByDocTemplateResp> filesCreateByDocTemplate(FilesCreateByDocTemplateReq request) {
         String path = "/v3/files/create-by-doc-template";
-        return ESignManager.getContext().post(path, request, FilesCreateByDocTemplateResp.class);
+        return execute.post(path, request, FilesCreateByDocTemplateResp.class);
     }
 
     /**
@@ -44,7 +50,7 @@ public class ESignSignFlowSrv {
      */
     public ESignResp<SignFlowCreateByFileResp> createByFile(SignFlowCreateByFileReq request) {
         String path = "/v3/sign-flow/create-by-file";
-        return ESignManager.getContext().post(path, request, SignFlowCreateByFileResp.class);
+        return execute.post(path, request, SignFlowCreateByFileResp.class);
     }
 
     /**
@@ -55,7 +61,7 @@ public class ESignSignFlowSrv {
      */
     public ESignResp<SignflowsSignfieldsPlatformSignResp> signfieldsPlatformSign(SignflowsSignfieldsPlatformSignReq request) {
         String path = "/v1/signflows/" + request.getSignFlowId() + "/signfields/platformSign";
-        return ESignManager.getContext().post(path, request, SignflowsSignfieldsPlatformSignResp.class);
+        return execute.post(path, request, SignflowsSignfieldsPlatformSignResp.class);
     }
 
     /**
@@ -66,7 +72,7 @@ public class ESignSignFlowSrv {
      */
     public ESignResp<SignFlowSignUrlResp> signUrl(SignFlowSignUrlReq request) {
         String path = "/v3/sign-flow/" + request.getSignFlowId() + "/sign-url";
-        return ESignManager.getContext().post(path, request, SignFlowSignUrlResp.class);
+        return execute.post(path, request, SignFlowSignUrlResp.class);
     }
 
     /**
@@ -77,7 +83,7 @@ public class ESignSignFlowSrv {
      */
     public ESignResp<SignFlowDetailResp> detail(String signFlowId) {
         String path = "/v3/sign-flow/" + signFlowId + "/detail";
-        return ESignManager.getContext().get(path, SignFlowDetailResp.class);
+        return execute.get(path, SignFlowDetailResp.class);
     }
 
     /**
@@ -88,7 +94,7 @@ public class ESignSignFlowSrv {
      */
     public ESignResp<String> start(String signFlowId) {
         String path = "/v3/sign-flow/" + signFlowId + "/start";
-        return ESignManager.getContext().post(path, "", String.class);
+        return execute.post(path, "", String.class);
     }
 
     /**
@@ -98,7 +104,7 @@ public class ESignSignFlowSrv {
      * @return
      */
     public ESignResp<SignFlowFileDownloadUrlResp> fileDownloadUrl(String signFlowId) {
-        String path = String.format("/v3/sign-flow/%s/file-download-url", signFlowId);
-        return ESignManager.getContext().get(path, SignFlowFileDownloadUrlResp.class);
+        String path = UrlUtil.fmtPathUrl("/v3/sign-flow/{}/file-download-url", signFlowId);
+        return execute.get(path, SignFlowFileDownloadUrlResp.class);
     }
 }

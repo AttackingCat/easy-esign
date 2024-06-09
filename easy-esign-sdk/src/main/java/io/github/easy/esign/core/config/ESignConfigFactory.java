@@ -1,7 +1,6 @@
 package io.github.easy.esign.core.config;
 
-import io.github.easy.esign.core.error.ESignExecution;
-import kotlin.reflect.KVariance;
+import io.github.easy.esign.core.error.ESignException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,7 +32,7 @@ public class ESignConfigFactory {
             properties.load(is);
             return properties;
         } catch (IOException e) {
-            throw new ESignExecution("配置文件(" + propertiesPath + ")加载失败", e);
+            throw new ESignException("配置文件(" + propertiesPath + ")加载失败", e);
         }
     }
 
@@ -50,9 +49,6 @@ public class ESignConfigFactory {
         });
         Optional.ofNullable(properties.get("esign-v3.sandbox")).ifPresent(sandbox -> {
             config.setSandbox(Boolean.valueOf(sandbox.toString()));
-        });
-        Optional.ofNullable(properties.get("esign-v3.lazyInit")).ifPresent(lazyInit -> {
-            config.setLazyInit(Boolean.valueOf(lazyInit.toString()));
         });
         Optional.ofNullable(properties.get("esign-v3.printBanner")).ifPresent(printBanner -> {
             config.setPrintBanner(Boolean.valueOf(printBanner.toString()));
