@@ -8,7 +8,6 @@ import io.github.easy.esign.core.log.Logger;
 import io.github.easy.esign.core.log.LoggerFactory;
 import io.github.easy.esign.utils.StrUtil;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -18,7 +17,7 @@ public class ESignManager {
      */
     public static volatile ESignConfig config;
 
-    private final static ThreadLocal<BaseHandler> serviceContext = new ThreadLocal<>();
+    private static volatile BaseHandler serviceContext;
 
     private final static ConcurrentHashMap<String, Object> services = new ConcurrentHashMap<>();
 
@@ -34,20 +33,20 @@ public class ESignManager {
                 logger.error(msg);
                 throw new ESignExecution(msg);
             }
-             if (config.getPrintBanner()) {
+            if (config.getPrintBanner()) {
                 // 打印 banner
                 StrUtil.printEasyEsign();
             }
             logger.info("ESign AppId: %s", ESignManager.config.getAppId());
             logger.info("ESign SandBox: %s", ESignManager.config.getSandbox());
-            logger.info("Log use: %s",logger.getClass());
+            logger.info("Log use: %s", logger.getClass());
         }
     }
 
     static {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             config = null;
-            serviceContext.remove();
+            serviceContext = null;
         }));
     }
 
@@ -63,14 +62,14 @@ public class ESignManager {
     }
 
     public static BaseHandler getContext() {
-        if (serviceContext.get() == null) {
+        if (serviceContext == null) {
             synchronized (ESignManager.class) {
-                if (serviceContext.get() == null) {
-                    serviceContext.set(new BaseHandler(config));
+                if (serviceContext == null) {
+                    serviceContext = new BaseHandler(config);
                 }
             }
         }
-        return serviceContext.get();
+        return serviceContext;
     }
 
     /**
