@@ -1,6 +1,7 @@
-package io.github.easy.esign.api;
+package io.github.easy.esign.core.api;
 
-import io.github.easy.esign.core.ESignManager;
+import io.github.easy.esign.core.BaseExecute;
+import io.github.easy.esign.core.api.abs.SrvTemp;
 import io.github.easy.esign.struct.doc.req.DocTemplateEditUrlReq;
 import io.github.easy.esign.struct.doc.resp.DocTemplateEditUrlResp;
 import io.github.easy.esign.struct.ESignResp;
@@ -8,20 +9,24 @@ import io.github.easy.esign.struct.doc.resp.DocTemplateResp;
 import io.github.easy.esign.struct.doc.resp.DocTemplatesResp;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Synchronized;
 
 /**
  * 文件&模板
  */
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class ESignDocTemplateSrv {
+public class DocTemplateSrv extends SrvTemp {
 
-    private static volatile ESignDocTemplateSrv INSTANCE;
+    private static BaseExecute execute;
+    private static DocTemplateSrv instance;
 
-    public static synchronized ESignDocTemplateSrv getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new ESignDocTemplateSrv();
+    @Synchronized
+    public static DocTemplateSrv getInstance() {
+        if (instance == null) {
+            instance = new DocTemplateSrv();
+            execute = getExecute(DocTemplateSrv.class);
         }
-        return INSTANCE;
+        return instance;
     }
 
     /**
@@ -32,7 +37,7 @@ public class ESignDocTemplateSrv {
      */
     public ESignResp<DocTemplateResp> get(String docTemplateId) {
         String path = "/v3/doc-templates/" + docTemplateId;
-        return ESignManager.getContext().get(path, DocTemplateResp.class);
+        return execute.get(path, DocTemplateResp.class);
     }
 
     /**
@@ -45,7 +50,7 @@ public class ESignDocTemplateSrv {
     public ESignResp<DocTemplatesResp> docTemplates(int pageNum, int pageSize) {
         // 注意参数需要按照排序
         String path = "/v3/doc-templates?pageNum=" + pageNum + "&pageSize=" + pageSize;
-        return ESignManager.getContext().get(path, DocTemplatesResp.class);
+        return execute.get(path, DocTemplatesResp.class);
     }
 
     /**
@@ -56,7 +61,7 @@ public class ESignDocTemplateSrv {
      */
     public ESignResp<DocTemplateEditUrlResp> editUrl(DocTemplateEditUrlReq request) {
         String path = "/v3/doc-templates/" + request.getDocTemplateId() + "/doc-template-edit-url";
-        return ESignManager.getContext().post(path, request, DocTemplateEditUrlResp.class);
+        return execute.post(path, request, DocTemplateEditUrlResp.class);
     }
 
 }

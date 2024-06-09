@@ -1,14 +1,12 @@
 package io.github.easy.esign.core;
 
-import io.github.easy.esign.api.BaseHandler;
 import io.github.easy.esign.core.config.ESignConfig;
 import io.github.easy.esign.core.config.ESignConfigFactory;
-import io.github.easy.esign.core.error.ESignExecution;
+import io.github.easy.esign.core.error.ESignException;
 import io.github.easy.esign.core.log.Logger;
 import io.github.easy.esign.core.log.LoggerFactory;
 import io.github.easy.esign.utils.StrUtil;
 
-import java.lang.reflect.Method;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ESignManager {
@@ -17,21 +15,19 @@ public class ESignManager {
      */
     public static volatile ESignConfig config;
 
-    private static volatile BaseHandler serviceContext;
-
-    private final static ConcurrentHashMap<String, Object> services = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<String, BaseExecute> executes = new ConcurrentHashMap<>();
 
     private final static Logger logger = LoggerFactory.getLogger(ESignManager.class);
 
     public static void setConfig(ESignConfig config) {
         ESignManager.config = config;
 
-        if (!configCheck(config)) {
+        if (configCheck(config)) {
             ESignManager.config = null;
-            if (!configCheck(getConfig())) {
-                String msg = "Configuration file not found,please check your config file,appId and secret must be not null";
+            if (configCheck(getConfig())) {
+                String msg = "Configuration file not found,please check your config file,appId and secret must be not null!";
                 logger.error(msg);
-                throw new ESignExecution(msg);
+                throw new ESignException(msg);
             }
             if (config.getPrintBanner()) {
                 // 打印 banner
@@ -46,7 +42,10 @@ public class ESignManager {
     static {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             config = null;
-            serviceContext = null;
+            for (BaseExecute value : executes.values()) {
+                value.close();
+            }
+            executes = null;
         }));
     }
 
@@ -61,51 +60,21 @@ public class ESignManager {
         return config;
     }
 
-    public static BaseHandler getContext() {
+    public static BaseExecute getContext(Class<?> clazz) {
+        String key = clazz.getName();
+        BaseExecute serviceContext = executes.get(key);
         if (serviceContext == null) {
             synchronized (ESignManager.class) {
-                if (serviceContext == null) {
-                    serviceContext = new BaseHandler(config);
-                }
+                serviceContext = new BaseExecute(config, clazz);
+                executes.put(key, serviceContext);
             }
         }
         return serviceContext;
     }
 
-    /**
-     * 获取service，非spring环境下使用
-     *
-     * @param clazz
-     * @param <T>
-     * @return
-     */
-    public static <T> T getService(Class<T> clazz) {
-        String name = clazz.getPackage().getName();
-        if (!"io.github.easy.esign.api".equals(name)) {
-            throw new ESignExecution("can not get service from class " + clazz);
-        }
-        String canonicalName = clazz.getCanonicalName();
-        if (services.get(canonicalName) != null) {
-            return (T) services.get(canonicalName);
-        }
-        for (Method method : clazz.getMethods()) {
-            if ("getInstance".equals(method.getName())) {
-                try {
-                    T invoke = (T) method.invoke(null);
-                    services.put(canonicalName, invoke);
-                    return invoke;
-                } catch (Exception e) {
-                    throw new ESignExecution(e);
-                }
-
-            }
-        }
-        throw new ESignExecution("can not find constructor" + clazz.getName());
-    }
-
     private static boolean configCheck(ESignConfig config) {
         if (config == null) {
-            return false;
-        } else return config.getAppId() != null && config.getSecret() != null;
+            return true;
+        } else return config.getAppId() == null || config.getSecret() == null;
     }
 }

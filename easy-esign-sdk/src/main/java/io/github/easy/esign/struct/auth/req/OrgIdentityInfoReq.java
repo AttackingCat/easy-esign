@@ -5,10 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import io.github.easy.esign.struct.constant.OrgIDCardType;
-import io.github.easy.esign.utils.StrUtil;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * https://open.esign.cn/doc/opendoc/auth3/vssvtu
@@ -42,30 +38,5 @@ public class OrgIdentityInfoReq {
     /**
      */
     OrgIDCardType orgIDCardType;
-
-    /**
-     * 获取参数
-     *
-     * @return
-     */
-    public String toParam() {
-        List<String> params = new ArrayList<>();
-        if (StrUtil.isNotBlank(orgId)) {
-            params.add("orgId=" + orgId);
-        }
-        if (StrUtil.isNotBlank(orgName)) {
-            params.add("orgName=" + orgName);
-        }
-        if (StrUtil.isNotBlank(orgIDCardNum)) {
-            params.add("orgIDCardNum=" + orgIDCardNum);
-        }
-        if (orgIDCardType != null) {
-            params.add("orgIDCardType=" + orgIDCardType);
-        }
-        if (params.isEmpty()) {
-            return null;
-        }
-        return String.join("&", params);
-    }
 
 }

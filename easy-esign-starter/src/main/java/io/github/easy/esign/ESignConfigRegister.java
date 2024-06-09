@@ -1,12 +1,13 @@
 package io.github.easy.esign;
 
-import io.github.easy.esign.api.*;
+import io.github.easy.esign.core.api.DocTemplateSrv;
+import io.github.easy.esign.core.api.*;
 import io.github.easy.esign.core.config.ESignConfig;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
-public class ESignRegister {
+public class ESignConfigRegister {
 
     /**
      * 获取配置Bean
@@ -21,37 +22,37 @@ public class ESignRegister {
 
     @Bean
     @ConditionalOnBean(ESignConfig.class)
-    public ESignDocTemplateSrv eSignDocTemplateSrv() {
-        return ESignDocTemplateSrv.getInstance();
+    public DocTemplateSrv DocTemplateSrv() {
+        return DocTemplateSrv.getInstance();
     }
 
     @Bean
     @ConditionalOnBean(ESignConfig.class)
-    public ESignFileSrv eSignFileSrv() {
-        return ESignFileSrv.getInstance();
+    public FileSrv FileSrv() {
+        return FileSrv.getInstance();
     }
 
     @Bean
     @ConditionalOnBean(ESignConfig.class)
-    public ESignOrgAuthSrv eSignOrgAuthSrv() {
-        return ESignOrgAuthSrv.getInstance();
+    public OrgAuthSrv OrgAuthSrv() {
+        return OrgAuthSrv.getInstance();
     }
 
     @Bean
     @ConditionalOnBean(ESignConfig.class)
-    public ESignOrgSealSrv eSignOrgSealSrv() {
-        return ESignOrgSealSrv.getInstance();
+    public OrgSealSrv OrgSealSrv() {
+        return OrgSealSrv.getInstance();
     }
 
     @Bean
     @ConditionalOnBean(ESignConfig.class)
-    public ESignPsnAuthSrv eSignPsnAuthSrv() {
-        return ESignPsnAuthSrv.getInstance();
+    public PsnAuthSrv PsnAuthSrv() {
+        return PsnAuthSrv.getInstance();
     }
 
     @Bean
     @ConditionalOnBean(ESignConfig.class)
-    public ESignSignFlowSrv eSignSignFlowSrv() {
-        return ESignSignFlowSrv.getInstance();
+    public SignFlowSrv SignFlowSrv() {
+        return SignFlowSrv.getInstance();
     }
 }

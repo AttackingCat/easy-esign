@@ -47,29 +47,4 @@ public class PsnIdentityInfoReq {
      */
     IDCardType psnIDCardType;
 
-    /**
-     * 获取参数
-     *
-     * @return
-     */
-    public String toParam() {
-        List<String> params = new ArrayList<>();
-        if (StrUtil.isNotBlank(psnAccount)) {
-            params.add("psnAccount=" + psnAccount);
-        }
-        if (StrUtil.isNotBlank(psnId)) {
-            params.add("psnId=" + psnId);
-        }
-        if (StrUtil.isNotBlank(psnIDCardNum)) {
-            params.add("psnIDCardNum=" + psnIDCardNum);
-        }
-        if (psnIDCardType != null) {
-            params.add("psnIDCardType=" + psnIDCardType);
-        }
-        if (params.isEmpty()) {
-            return null;
-        }
-        return String.join("&", params);
-    }
-
 }

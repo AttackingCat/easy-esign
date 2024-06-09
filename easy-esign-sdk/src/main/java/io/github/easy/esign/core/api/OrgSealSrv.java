@@ -1,25 +1,29 @@
-package io.github.easy.esign.api;
+package io.github.easy.esign.core.api;
 
-import io.github.easy.esign.core.ESignManager;
+import io.github.easy.esign.core.BaseExecute;
+import io.github.easy.esign.core.api.abs.SrvTemp;
 import io.github.easy.esign.struct.seal.resp.SealInfoResp;
 import io.github.easy.esign.struct.ESignResp;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Synchronized;
 
 
 /**
  * 授权认证
  */
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class ESignOrgSealSrv {
+public class OrgSealSrv extends SrvTemp {
 
-    private static volatile ESignOrgSealSrv INSTANCE;
+    private static final BaseExecute execute = getExecute(DocTemplateSrv.class);
+    private static OrgSealSrv instance;
 
-    public static synchronized ESignOrgSealSrv getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new ESignOrgSealSrv();
+    @Synchronized
+    public static OrgSealSrv getInstance() {
+        if (instance == null) {
+            instance = new OrgSealSrv();
         }
-        return INSTANCE;
+        return instance;
     }
 
     /**
@@ -32,6 +36,6 @@ public class ESignOrgSealSrv {
      */
     public ESignResp<SealInfoResp> orgSealInfo(String orgId, String sealId) {
         String path = String.format("/v3/seals/org-seal-info?orgId=%s&sealId=%s", orgId, sealId);
-        return ESignManager.getContext().get(path, SealInfoResp.class);
+        return execute.get(path, SealInfoResp.class);
     }
 }
