@@ -41,18 +41,10 @@ public class ESignConfigFactory {
         if (properties == null) {
             return config;
         }
-        Optional.ofNullable(properties.get("esign-v3.app-id")).ifPresent(appId -> {
-            config.setAppId((String) appId);
-        });
-        Optional.ofNullable(properties.get("esign-v3.secret")).ifPresent(secret -> {
-            config.setSecret((String) secret);
-        });
-        Optional.ofNullable(properties.get("esign-v3.sandbox")).ifPresent(sandbox -> {
-            config.setSandbox(Boolean.valueOf(sandbox.toString()));
-        });
-        Optional.ofNullable(properties.get("esign-v3.printBanner")).ifPresent(printBanner -> {
-            config.setPrintBanner(Boolean.valueOf(printBanner.toString()));
-        });
+        Optional.ofNullable(properties.get("esign-v3.app-id")).ifPresent(appId -> config.setAppId((String) appId));
+        Optional.ofNullable(properties.get("esign-v3.secret")).ifPresent(secret -> config.setSecret((String) secret));
+        Optional.ofNullable(properties.get("esign-v3.sandbox")).ifPresent(sandbox -> config.setSandbox(Boolean.valueOf(sandbox.toString())));
+        Optional.ofNullable(properties.get("esign-v3.printBanner")).ifPresent(printBanner -> config.setPrintBanner(Boolean.valueOf(printBanner.toString())));
         Map<String, String> callbackUrl = new HashMap<>();
         properties.forEach((k, v) -> {
             String str = k.toString();

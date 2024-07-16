@@ -2,8 +2,8 @@ spring:
   application:
     name: demo
 esign-v3:
-  app-id: 7439018945
-  secret: 64f190a0b9cb7452c1c167856be3cbb6
+  app-id: your app id
+  secret: your app secret
   sandbox: true
   print-banner: true
   callback-url:

@@ -34,9 +34,6 @@ public class SignFlowSrv extends SrvTemp {
 
     /**
      * 填写模板生成文件
-     *
-     * @param request
-     * @return
      */
     public ESignResp<FilesCreateByDocTemplateResp> filesCreateByDocTemplate(FilesCreateByDocTemplateReq request) {
         String path = "/v3/files/create-by-doc-template";
@@ -46,8 +43,6 @@ public class SignFlowSrv extends SrvTemp {
     /**
      * 基于文件发起签署
      *
-     * @param request
-     * @return
      */
     public ESignResp<SignFlowCreateByFileResp> createByFile(SignFlowCreateByFileReq request) {
         String path = "/v3/sign-flow/create-by-file";
@@ -57,8 +52,6 @@ public class SignFlowSrv extends SrvTemp {
     /**
      * 添加平台方自动盖章签署区
      *
-     * @param request
-     * @return
      */
     public ESignResp<SignflowsSignfieldsPlatformSignResp> signfieldsPlatformSign(SignflowsSignfieldsPlatformSignReq request) {
         String path = "/v1/signflows/" + request.getSignFlowId() + "/signfields/platformSign";
@@ -68,8 +61,6 @@ public class SignFlowSrv extends SrvTemp {
     /**
      * 获取签署页面链接
      *
-     * @param request
-     * @return
      */
     public ESignResp<SignFlowSignUrlResp> signUrl(SignFlowSignUrlReq request) {
         String path = "/v3/sign-flow/" + request.getSignFlowId() + "/sign-url";
@@ -79,8 +70,6 @@ public class SignFlowSrv extends SrvTemp {
     /**
      * 查询签署流程详情
      *
-     * @param signFlowId
-     * @return
      */
     public ESignResp<SignFlowDetailResp> detail(String signFlowId) {
         String path = "/v3/sign-flow/" + signFlowId + "/detail";
@@ -90,8 +79,6 @@ public class SignFlowSrv extends SrvTemp {
     /**
      * 开启签署流程
      *
-     * @param signFlowId
-     * @return
      */
     public ESignResp<String> start(String signFlowId) {
         String path = "/v3/sign-flow/" + signFlowId + "/start";
@@ -101,8 +88,6 @@ public class SignFlowSrv extends SrvTemp {
     /**
      * 获取合同链接
      *
-     * @param signFlowId
-     * @return
      */
     public ESignResp<SignFlowFileDownloadUrlResp> fileDownloadUrl(String signFlowId) {
         String path = UrlUtil.fmtPathUrl("/v3/sign-flow/{}/file-download-url", signFlowId);

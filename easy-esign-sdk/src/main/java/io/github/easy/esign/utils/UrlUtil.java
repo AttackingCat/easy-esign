@@ -6,8 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.easy.esign.core.error.ESignException;
 import lombok.SneakyThrows;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
