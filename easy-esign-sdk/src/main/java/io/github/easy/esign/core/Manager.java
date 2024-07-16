@@ -17,23 +17,18 @@ public class Manager {
 
     private final static Logger logger = LoggerFactory.getLogger(Manager.class);
 
-    public static void setConfig(ESignConfig config) {
-        Manager.config = config;
-
-        if (configCheck(config)) {
-            Manager.config = null;
-            if (configCheck(getConfig())) {
-                String msg = "Configuration file not found,please check your config file,appId and secret must be not null!";
-                logger.error(msg);
-                throw new ESignException(msg);
-            }
-            if (config.getPrintBanner()) {
-                // 打印 banner
-                StrUtil.printEasyEsign();
-            }
-            logger.info("ESign AppId: %s", Manager.config.getAppId());
-            logger.info("ESign SandBox: %s", Manager.config.getSandbox());
+    public static void setConfig(ESignConfig cfg) {
+        config = cfg;
+        if (configCheck(cfg)) {
+            logger.info("ESign AppId: %s", config.getAppId());
+            logger.info("ESign SandBox: %s", config.getSandbox());
             logger.info("Log use: %s", logger.getClass());
+        } else if (!configCheck(getConfig())) {
+            throw new ESignException("Configuration file not found,please check your config file,appId and secret must be not null!");
+        }
+        if (config.getPrintBanner()) {
+            // 打印 banner
+            StrUtil.printEasyESign();
         }
     }
 
@@ -68,7 +63,9 @@ public class Manager {
 
     private static boolean configCheck(ESignConfig config) {
         if (config == null) {
-            return true;
-        } else return config.getAppId() == null || config.getSecret() == null;
+            return false;
+        } else {
+            return config.getAppId() != null && config.getSecret() != null;
+        }
     }
 }
