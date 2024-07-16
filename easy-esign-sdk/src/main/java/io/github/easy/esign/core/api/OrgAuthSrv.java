@@ -33,12 +33,10 @@ public class OrgAuthSrv extends SrvTemp {
     }
 
     /**
-     * https://open.esign.cn/doc/opendoc/auth3/kcbdu7
+     * <a href="https://open.esign.cn/doc/opendoc/auth3/kcbdu7">...</a>
      * <p>
      * 获取机构认证&授权页面链接
      *
-     * @param request
-     * @return
      */
     public ESignResp<OrgAuthResp> authUrl(OrgAuthReq request) {
         String path = "/v3/org-auth-url";
@@ -46,12 +44,10 @@ public class OrgAuthSrv extends SrvTemp {
     }
 
     /**
-     * https://open.esign.cn/doc/opendoc/auth3/vssvtu
+     * <a href="https://open.esign.cn/doc/opendoc/auth3/vssvtu">...</a>
      * <p>
      * 查询机构认证信息
      *
-     * @param request
-     * @return
      */
     public ESignResp<OrgIdentityInfoResp> identityInfo(OrgIdentityInfoReq request) {
         String path = "/v3/organizations/identity-info" + UrlUtil.toParam(request);
@@ -60,12 +56,10 @@ public class OrgAuthSrv extends SrvTemp {
 
 
     /**
-     * https://open.esign.cn/doc/opendoc/auth3/ytn2tt
+     * <a href="https://open.esign.cn/doc/opendoc/auth3/ytn2tt">...</a>
      * <p>
      * 查询机构授权详情
      *
-     * @param orgId
-     * @return
      */
     public ESignResp<AuthorizedInfoResp> authorizedInfo(String orgId) {
         String path = "/v3/organizations/" + orgId + "authorized-info";

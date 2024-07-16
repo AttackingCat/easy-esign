@@ -11,7 +11,7 @@ public class LoggerFactory {
 
     private static final ConcurrentHashMap<String, Logger> loggers = new ConcurrentHashMap<>();
 
-    public static Logger getLogger(Class clazz) {
+    public static Logger getLogger(Class<?> clazz) {
         String className = clazz.getCanonicalName();
         Logger logger = loggers.get(className);
         if (logger == null) {

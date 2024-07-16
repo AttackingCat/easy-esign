@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import io.github.easy.esign.struct.constant.OrgIDCardType;
 
 /**
- * https://open.esign.cn/doc/opendoc/auth3/vssvtu
+ * <a href="https://open.esign.cn/doc/opendoc/auth3/vssvtu">...</a>
  * <p>
  * 查询个人认证信息
  * <p>

@@ -5,10 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import io.github.easy.esign.struct.constant.IDCardType;
-import io.github.easy.esign.utils.StrUtil;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * https://open.esign.cn/doc/opendoc/auth3/vssvtu

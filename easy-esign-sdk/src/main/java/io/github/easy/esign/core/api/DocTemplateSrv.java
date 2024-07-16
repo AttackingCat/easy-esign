@@ -42,10 +42,6 @@ public class DocTemplateSrv extends SrvTemp {
 
     /**
      * 查询合同模板列表
-     *
-     * @param pageNum
-     * @param pageSize
-     * @return
      */
     public ESignResp<DocTemplatesResp> docTemplates(int pageNum, int pageSize) {
         // 注意参数需要按照排序
@@ -55,9 +51,6 @@ public class DocTemplateSrv extends SrvTemp {
 
     /**
      * 获取编辑合同模板页面
-     *
-     * @param request
-     * @return
      */
     public ESignResp<DocTemplateEditUrlResp> editUrl(DocTemplateEditUrlReq request) {
         String path = "/v3/doc-templates/" + request.getDocTemplateId() + "/doc-template-edit-url";
