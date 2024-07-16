@@ -20,13 +20,14 @@ import lombok.Synchronized;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class OrgAuthSrv extends SrvTemp {
 
-    private static final BaseExecute execute = getExecute(OrgAuthSrv.class);
+    private static BaseExecute execute;
     private static OrgAuthSrv instance;
 
     @Synchronized
     public static OrgAuthSrv getInstance() {
         if (instance == null) {
             instance = new OrgAuthSrv();
+            execute = getExecute(OrgAuthSrv.class);
         }
         return instance;
     }

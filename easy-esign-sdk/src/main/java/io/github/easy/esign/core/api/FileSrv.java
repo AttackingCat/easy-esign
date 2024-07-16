@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
+import static io.github.easy.esign.core.constant.Constant.*;
 
 /**
  * 文件&模板
@@ -28,13 +29,14 @@ import java.util.Objects;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class FileSrv extends SrvTemp {
 
-    private static final BaseExecute execute = getExecute(DocTemplateSrv.class);
+    private static BaseExecute execute;
     private static FileSrv instance;
 
     @Synchronized
     public static FileSrv getInstance() {
         if (instance == null) {
             instance = new FileSrv();
+            execute = getExecute(DocTemplateSrv.class);
         }
         return instance;
     }
@@ -51,7 +53,7 @@ public class FileSrv extends SrvTemp {
         } catch (IOException e) {
             throw new ESignException(e);
         }
-        request.setContentType(BaseExecute.PDF_CONTENT_TYPE);
+        request.setContentType(PDF_CT);
         return execute.post(path, request, FileUrlResp.class);
     }
 
@@ -59,13 +61,13 @@ public class FileSrv extends SrvTemp {
      * 上传本地文件step2
      */
     public FileUpResp fileUpload(String fileUploadUrl, File file) throws IOException {
-        MediaType mediaType = MediaType.parse(BaseExecute.PDF_CONTENT_TYPE);
+        MediaType mediaType = MediaType.parse(PDF_CT);
         RequestBody requestBody = RequestBody.Companion.create(file, mediaType);
         Request request = new Request.Builder()
                 .url(fileUploadUrl)
                 .put(requestBody)
                 .header("Content-MD5", DigestUtil.getStringContentMd5(file))
-                .header("Content-Type", BaseExecute.CONTENT_TYPE)
+                .header("Content-Type", JSON_CT)
                 .build();
         OkHttpClient httpClient = execute.getHttpClient();
         try (Response r = httpClient.newCall(request).execute()) {

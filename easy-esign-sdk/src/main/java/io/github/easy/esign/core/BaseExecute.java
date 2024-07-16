@@ -7,10 +7,14 @@ import io.github.easy.esign.core.log.LoggerFactory;
 import io.github.easy.esign.struct.ESignResp;
 import io.github.easy.esign.utils.Base64Util;
 import io.github.easy.esign.utils.StrUtil;
+import lombok.Synchronized;
 import okhttp3.*;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
+import static io.github.easy.esign.core.constant.Constant.*;
 import static io.github.easy.esign.utils.DigestUtil.md5Digest;
 import static io.github.easy.esign.utils.DigestUtil.signatureBase64;
 import static io.github.easy.esign.utils.JsonUtil.*;
@@ -19,43 +23,47 @@ public final class BaseExecute {
 
     private static ESignConfig config;
 
-    public static final String DELETE = "DELETE";
-    public static final String GET = "GET";
-    public static final String POST = "POST";
-    public static final String PUT = "PUT";
+    private final Map<String, Logger> loggerMap = new HashMap<>();
 
+    @Synchronized
+    public void setLog(Class<?> clazz) {
+        if (clazz == null) {
+            return;
+        }
+        if (loggerMap.get(clazz.getName()) == null) {
+            loggerMap.put(clazz.getName(), LoggerFactory.getLogger(clazz));
+        }
+    }
 
-    public BaseExecute(ESignConfig config, Class<?> clazz) {
-        log = LoggerFactory.getLogger(clazz);
+    private Logger getLog() {
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        String key = null;
+        for (StackTraceElement stackTraceElement : stackTrace) {
+            if (stackTraceElement.getClassName().contains("io.github.easy.esign.core.api")) {
+                key = stackTraceElement.getClassName();
+            }
+        }
+        return loggerMap.getOrDefault(key, baseLog);
+    }
+
+    public BaseExecute(ESignConfig config) {
         if (config == null) {
-            config = ESignManager.getConfig();
+            config = Manager.getConfig();
         }
         BaseExecute.config = config;
-        /* if (!config.getLazyInit()) {
-            init();
-        }*/
         init();
     }
 
     private static OkHttpClient httpClient;
 
-    private static Logger log;
+    private final static Logger baseLog = LoggerFactory.getLogger(BaseExecute.class);
 
-    // sandbox url
-    private static final String endpointSandbox = "https://smlopenapi.esign.cn";
-    // prod url
-    private static final String endpoint = "https://openapi.esign.cn";
-
-    public static final String CONTENT_TYPE = "application/json; charset=UTF-8";
-    public static final String PDF_CONTENT_TYPE = "application/pdf;";
-
-
-    private static void init() {
+    private void init() {
         httpClient = new OkHttpClient().newBuilder()
                 .addInterceptor(chain -> {
-                    log.debug("method: %s", chain.request().method());
-                    log.debug("url: %s", chain.request().url().url());
-                    log.debug("headers: \n%s", chain.request().headers());
+                    baseLog.debug("method: %s", chain.request().method());
+                    baseLog.debug("url: %s", chain.request().url().url());
+                    baseLog.debug("headers: \n%s", chain.request().headers());
                     return chain.proceed(chain.request());
                 })
                 .build();
@@ -72,15 +80,14 @@ public final class BaseExecute {
     }*/
 
     public <T> ESignResp<T> get(String path, Class<T> clazz) {
-        String text = request(path, GET, null);
+        String text = request(path, GET, "");
         return parseESignResp(text, clazz);
     }
 
-    private static String request(String path, String method, String payload) {
-//        if (httpClient == null) {
-//            init();
-//        }
-        String contentType = CONTENT_TYPE;
+    private String request(String path, String method, String payload) {
+        Logger log = getLog();
+
+        String contentType = JSON_CT;
         if (method.equals(GET) || method.equals(DELETE)) {
             if (StrUtil.isBlank(payload)) {
                 contentType = "";
@@ -109,11 +116,12 @@ public final class BaseExecute {
 
         RequestBody body = null;
         if (StrUtil.isNotBlank(payload)) {
-            body = RequestBody.create(payload, MediaType.parse(CONTENT_TYPE));
+            body = RequestBody.create(payload, MediaType.parse(JSON_CT));
         }
         builder.method(method, body);
 
         Request httpRequest = builder.build();
+        log.info("path: " + path);
         log.info("payload: " + payload);
 
         try (Response resp = httpClient.newCall(httpRequest).execute()) {

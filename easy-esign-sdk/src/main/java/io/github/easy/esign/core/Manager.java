@@ -7,23 +7,21 @@ import io.github.easy.esign.core.log.Logger;
 import io.github.easy.esign.core.log.LoggerFactory;
 import io.github.easy.esign.utils.StrUtil;
 
-import java.util.concurrent.ConcurrentHashMap;
-
-public class ESignManager {
+public class Manager {
     /**
      * 全局配置对象
      */
     public static volatile ESignConfig config;
 
-    private static ConcurrentHashMap<String, BaseExecute> executes = new ConcurrentHashMap<>();
+    private static volatile BaseExecute execute;
 
-    private final static Logger logger = LoggerFactory.getLogger(ESignManager.class);
+    private final static Logger logger = LoggerFactory.getLogger(Manager.class);
 
     public static void setConfig(ESignConfig config) {
-        ESignManager.config = config;
+        Manager.config = config;
 
         if (configCheck(config)) {
-            ESignManager.config = null;
+            Manager.config = null;
             if (configCheck(getConfig())) {
                 String msg = "Configuration file not found,please check your config file,appId and secret must be not null!";
                 logger.error(msg);
@@ -33,43 +31,39 @@ public class ESignManager {
                 // 打印 banner
                 StrUtil.printEasyEsign();
             }
-            logger.info("ESign AppId: %s", ESignManager.config.getAppId());
-            logger.info("ESign SandBox: %s", ESignManager.config.getSandbox());
+            logger.info("ESign AppId: %s", Manager.config.getAppId());
+            logger.info("ESign SandBox: %s", Manager.config.getSandbox());
             logger.info("Log use: %s", logger.getClass());
         }
     }
 
     static {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            execute.close();
             config = null;
-            for (BaseExecute value : executes.values()) {
-                value.close();
-            }
-            executes = null;
+            execute = null;
         }));
     }
 
     public static ESignConfig getConfig() {
         if (config == null) {
-            synchronized (ESignManager.class) {
+            synchronized (Manager.class) {
                 if (config == null) {
-                    ESignManager.config = (ESignConfigFactory.createConfig());
+                    Manager.config = (ESignConfigFactory.createConfig());
                 }
             }
         }
         return config;
     }
 
-    public static BaseExecute getContext(Class<?> clazz) {
-        String key = clazz.getName();
-        BaseExecute serviceContext = executes.get(key);
-        if (serviceContext == null) {
-            synchronized (ESignManager.class) {
-                serviceContext = new BaseExecute(config, clazz);
-                executes.put(key, serviceContext);
+    public static BaseExecute getExecute(Class<?> clazz) {
+        if (execute == null) {
+            synchronized (Manager.class) {
+                execute = new BaseExecute(config);
             }
         }
-        return serviceContext;
+        execute.setLog(clazz);
+        return execute;
     }
 
     private static boolean configCheck(ESignConfig config) {

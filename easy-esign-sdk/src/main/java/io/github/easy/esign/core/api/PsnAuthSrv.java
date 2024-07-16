@@ -20,13 +20,14 @@ import lombok.Synchronized;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class PsnAuthSrv extends SrvTemp {
 
-    private static final BaseExecute execute = getExecute(DocTemplateSrv.class);
+    private static BaseExecute execute;
     private static PsnAuthSrv instance;
 
     @Synchronized
     public static PsnAuthSrv getInstance() {
         if (instance == null) {
             instance = new PsnAuthSrv();
+            execute = getExecute(PsnAuthSrv.class);
         }
         return instance;
     }
@@ -53,7 +54,7 @@ public class PsnAuthSrv extends SrvTemp {
      * @return
      */
     public ESignResp<PsnIdentityInfoResp> identityInfo(PsnIdentityInfoReq request) {
-        String path = "/v3/persons/identity-info" +  UrlUtil.toParam(request);
+        String path = "/v3/persons/identity-info" + UrlUtil.toParam(request);
         return execute.get(path, PsnIdentityInfoResp.class);
     }
 
