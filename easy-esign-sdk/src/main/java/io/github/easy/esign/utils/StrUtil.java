@@ -7,7 +7,7 @@ public class StrUtil {
     /**
      * 打印 Sa-Token 版本字符画
      */
-    public static void printEasyEsign() {
+    public static void printEasyESign() {
         String str = "  ______                                _               \n" +
                 " |  ____|                              (_)              \n" +
                 " | |__    __ _  ___  _   _    ___  ___  _   __ _  _ __  \n" +
@@ -16,6 +16,7 @@ public class StrUtil {
                 " |______|\\__,_||___/ \\__, |  \\___||___/|_| \\__, ||_| |_|\n" +
                 "                      __/ |                 __/ |       \n" +
                 "                     |___/                 |___/        ";
+        System.out.println("Easy esign init success");
         System.out.println(str);
     }
 
