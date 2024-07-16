@@ -7,7 +7,7 @@ import io.github.easy.esign.struct.auth.resp.OrgIdentityInfoResp;
 import io.github.easy.esign.struct.constant.OrgIDCardType;
 
 public class Demo01 {
-    public static void main(String[] args) {
+    public void test() {
         OrgIdentityInfoReq orgIdentityInfoReq = new OrgIdentityInfoReq();
         orgIdentityInfoReq.setOrgIDCardNum("910000622326970013");
         orgIdentityInfoReq.setOrgIDCardType(OrgIDCardType.CRED_ORG_USCC);

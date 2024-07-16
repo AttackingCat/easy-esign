@@ -39,7 +39,7 @@ https://open.esign.cn/doc/opendoc/apiv3-guide/tfb6gn
 ```yaml
 esign-v3:
   app-id: #e签宝的appId
-  secret: #e钱包的secret
+  secret: #e签包的secret
   sandbox: true #沙箱模式
   print-banner: true #打印banner图
   callback-url: #回调地址配置集合，如下
@@ -77,4 +77,4 @@ ESignResp<OrgIdentityInfoResp> orgIdentityInfoResponseESignResp = signOrgAuthSrv
 ### 依赖引入（待发布）
 > 
 > 
-#### 鸣谢，项目灵感来源于 https://github.com/psoho/fastesign 因业务需要在其基础上做了大量扩展
+#### 鸣谢，项目灵感来源于 https://github.com/psoho/fastesign 因业务需要在其基础上做了一些扩展
