@@ -20,13 +20,14 @@ import lombok.Synchronized;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class SignFlowSrv extends SrvTemp {
 
-    private static final BaseExecute execute = getExecute(DocTemplateSrv.class);
+    private static BaseExecute execute;
     private static SignFlowSrv instance;
 
     @Synchronized
     public static SignFlowSrv getInstance() {
         if (instance == null) {
             instance = new SignFlowSrv();
+            execute = getExecute(SignFlowSrv.class);
         }
         return instance;
     }

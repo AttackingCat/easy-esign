@@ -15,13 +15,14 @@ import lombok.Synchronized;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class OrgSealSrv extends SrvTemp {
 
-    private static final BaseExecute execute = getExecute(DocTemplateSrv.class);
+    private static BaseExecute execute;
     private static OrgSealSrv instance;
 
     @Synchronized
     public static OrgSealSrv getInstance() {
         if (instance == null) {
             instance = new OrgSealSrv();
+            execute = getExecute(OrgSealSrv.class);
         }
         return instance;
     }

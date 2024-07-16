@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.easy.esign.core.error.ESignException;
+import lombok.SneakyThrows;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -18,6 +19,7 @@ public class UrlUtil {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
+    @SneakyThrows
     public static String toParam(Object params) {
         JsonNode jsonNode = objectMapper.valueToTree(params);
         return toParam(jsonNode);
@@ -53,9 +55,9 @@ public class UrlUtil {
                 urlParams.append("&");
             }
             try {
-                urlParams.append(URLEncoder.encode(key, StandardCharsets.UTF_8.name()))
+                urlParams.append(key)
                         .append("=")
-                        .append(URLEncoder.encode(value, StandardCharsets.UTF_8.name()));
+                        .append(value);
             } catch (Exception e) {
                 throw new ESignException("Error encoding URL parameter", e);
             }
