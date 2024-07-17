@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/demo")
 @RestController
 public class DemoController {
-    @Autowired
-    private OrgAuthSrv orgAuthSrv;
-    @Autowired
-    private PsnAuthSrv psnAuthSrv;
+    private final OrgAuthSrv orgAuthSrv;
+    private final PsnAuthSrv psnAuthSrv;
+
+    public DemoController(OrgAuthSrv orgAuthSrv, PsnAuthSrv psnAuthSrv) {
+        this.orgAuthSrv = orgAuthSrv;
+        this.psnAuthSrv = psnAuthSrv;
+    }
 
     @GetMapping("/info")
     public Object demo01(@RequestBody OrgIdentityInfoReq request) {

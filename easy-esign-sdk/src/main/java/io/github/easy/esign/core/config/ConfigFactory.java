@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 
-public class ESignConfigFactory {
+public class ConfigFactory {
 
     public static String configPath = "esign-v3.properties";
 
@@ -24,7 +24,7 @@ public class ESignConfigFactory {
 
     private static Properties readProperties(String propertiesPath) {
         try {
-            InputStream is = ESignConfigFactory.class.getClassLoader().getResourceAsStream(propertiesPath);
+            InputStream is = ConfigFactory.class.getClassLoader().getResourceAsStream(propertiesPath);
             if (is == null) {
                 return null;
             }

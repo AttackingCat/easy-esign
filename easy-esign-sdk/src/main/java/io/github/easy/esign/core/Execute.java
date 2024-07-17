@@ -19,14 +19,26 @@ import static io.github.easy.esign.utils.DigestUtil.md5Digest;
 import static io.github.easy.esign.utils.DigestUtil.signatureBase64;
 import static io.github.easy.esign.utils.JsonUtil.*;
 
-public final class BaseExecute {
+public final class Execute {
 
     private static ESignConfig config;
 
-    private final Map<String, Logger> loggerMap = new HashMap<>();
+    private final static Map<String, Logger> loggerMap = new HashMap<>();
+
+    private static OkHttpClient httpClient;
+
+    private final static Logger baseLog = LoggerFactory.getLogger(Execute.class);
+
+    public Execute(ESignConfig config) {
+        if (config == null) {
+            config = Manager.getConfig();
+        }
+        Execute.config = config;
+        init();
+    }
 
     @Synchronized
-    public void setLog(Class<?> clazz) {
+    public static void setLog(Class<?> clazz) {
         if (clazz == null) {
             return;
         }
@@ -46,27 +58,18 @@ public final class BaseExecute {
         return loggerMap.getOrDefault(key, baseLog);
     }
 
-    public BaseExecute(ESignConfig config) {
-        if (config == null) {
-            config = Manager.getConfig();
-        }
-        BaseExecute.config = config;
-        init();
-    }
-
-    private static OkHttpClient httpClient;
-
-    private final static Logger baseLog = LoggerFactory.getLogger(BaseExecute.class);
-
+    @Synchronized
     private void init() {
-        httpClient = new OkHttpClient().newBuilder()
-                .addInterceptor(chain -> {
-                    baseLog.debug("method: %s", chain.request().method());
-                    baseLog.debug("url: %s", chain.request().url().url());
-                    baseLog.debug("headers: \n%s", chain.request().headers());
-                    return chain.proceed(chain.request());
-                })
-                .build();
+        if (httpClient == null) {
+            httpClient = new OkHttpClient().newBuilder()
+                    .addInterceptor(chain -> {
+                        baseLog.debug("method: %s", chain.request().method());
+                        baseLog.debug("url: %s", chain.request().url().url());
+                        baseLog.debug("headers: \n%s", chain.request().headers());
+                        return chain.proceed(chain.request());
+                    })
+                    .build();
+        }
     }
 
     public <T> ESignResp<T> post(String path, Object request, Class<T> clazz) {

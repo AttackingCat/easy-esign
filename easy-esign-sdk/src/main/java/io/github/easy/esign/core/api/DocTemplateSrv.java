@@ -1,6 +1,6 @@
 package io.github.easy.esign.core.api;
 
-import io.github.easy.esign.core.BaseExecute;
+import io.github.easy.esign.core.Execute;
 import io.github.easy.esign.core.api.abs.SrvTemp;
 import io.github.easy.esign.struct.doc.req.DocTemplateEditUrlReq;
 import io.github.easy.esign.struct.doc.resp.DocTemplateEditUrlResp;
@@ -17,14 +17,12 @@ import lombok.Synchronized;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class DocTemplateSrv extends SrvTemp {
 
-    private static BaseExecute execute;
     private static DocTemplateSrv instance;
 
     @Synchronized
     public static DocTemplateSrv getInstance() {
         if (instance == null) {
             instance = new DocTemplateSrv();
-            execute = getExecute(DocTemplateSrv.class);
         }
         return instance;
     }
@@ -37,7 +35,7 @@ public class DocTemplateSrv extends SrvTemp {
      */
     public ESignResp<DocTemplateResp> get(String docTemplateId) {
         String path = "/v3/doc-templates/" + docTemplateId;
-        return execute.get(path, DocTemplateResp.class);
+        return execute().get(path, DocTemplateResp.class);
     }
 
     /**
@@ -46,7 +44,7 @@ public class DocTemplateSrv extends SrvTemp {
     public ESignResp<DocTemplatesResp> docTemplates(int pageNum, int pageSize) {
         // 注意参数需要按照排序
         String path = "/v3/doc-templates?pageNum=" + pageNum + "&pageSize=" + pageSize;
-        return execute.get(path, DocTemplatesResp.class);
+        return execute().get(path, DocTemplatesResp.class);
     }
 
     /**
@@ -54,7 +52,7 @@ public class DocTemplateSrv extends SrvTemp {
      */
     public ESignResp<DocTemplateEditUrlResp> editUrl(DocTemplateEditUrlReq request) {
         String path = "/v3/doc-templates/" + request.getDocTemplateId() + "/doc-template-edit-url";
-        return execute.post(path, request, DocTemplateEditUrlResp.class);
+        return execute().post(path, request, DocTemplateEditUrlResp.class);
     }
 
 }
