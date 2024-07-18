@@ -5,8 +5,9 @@ esign-v3:
   print-banner: true
   default-config-name: "default"
   configs:
-    - app-id: your app id
-      secret: your app secret
+    - name: "default"
+      app-id: 7439018945
+      secret: 64f190a0b9cb7452c1c167856be3cbb6
       sandbox: true
 server:
   port: 8080

@@ -42,8 +42,8 @@ public class ESignConfigRegister {
 
     @Bean
     @ConditionalOnBean(ESignConfigs.class)
-    public FileAbstractSrv FileSrv() {
-        return FileAbstractSrv.getInstance();
+    public FileSrv FileSrv() {
+        return FileSrv.getInstance();
     }
 
     @Bean
