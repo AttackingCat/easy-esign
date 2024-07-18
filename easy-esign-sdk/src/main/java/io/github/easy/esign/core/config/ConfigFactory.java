@@ -4,12 +4,10 @@ import io.github.easy.esign.core.error.ESignException;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 
-public class ESignConfigFactory {
+public class ConfigFactory {
 
     public static String configPath = "esign-v3.properties";
 
@@ -24,7 +22,7 @@ public class ESignConfigFactory {
 
     private static Properties readProperties(String propertiesPath) {
         try {
-            InputStream is = ESignConfigFactory.class.getClassLoader().getResourceAsStream(propertiesPath);
+            InputStream is = ConfigFactory.class.getClassLoader().getResourceAsStream(propertiesPath);
             if (is == null) {
                 return null;
             }
@@ -44,17 +42,6 @@ public class ESignConfigFactory {
         Optional.ofNullable(properties.get("esign-v3.app-id")).ifPresent(appId -> config.setAppId((String) appId));
         Optional.ofNullable(properties.get("esign-v3.secret")).ifPresent(secret -> config.setSecret((String) secret));
         Optional.ofNullable(properties.get("esign-v3.sandbox")).ifPresent(sandbox -> config.setSandbox(Boolean.valueOf(sandbox.toString())));
-        Optional.ofNullable(properties.get("esign-v3.printBanner")).ifPresent(printBanner -> config.setPrintBanner(Boolean.valueOf(printBanner.toString())));
-        Map<String, String> callbackUrl = new HashMap<>();
-        properties.forEach((k, v) -> {
-            String str = k.toString();
-            String prefix = "esign-v3.callback-url.";
-            if (str.contains(prefix)) {
-                callbackUrl.put(str.replace(prefix, ""), v.toString());
-            }
-        });
-        config.setCallBackUrl(callbackUrl);
         return config;
     }
-
 }

@@ -1,4 +1,5 @@
 ## 项目基于e签宝电子签名SaaS API V3版本进行开发，接入文档参考
+
 ***
 _特别说明：由于并非所有API都会被经常使用，本项目仅提供通用场景的接口，如有特殊情况请fork一份进行扩展。_
 ***
@@ -35,31 +36,42 @@ https://open.esign.cn/doc/opendoc/apiv3-guide/tfb6gn
 >- https://open.esign.cn/doc/opendoc/codemsg-v3/ckh528ox9a1k9u07
 
 ### 使用方式
+
 - 配置文件，springboot中可以自动加载的情况
+
 ```yaml
-esign-v3:
-  app-id: #e签宝的appId
-  secret: #e签包的secret
-  sandbox: true #沙箱模式
-  print-banner: true #打印banner图
-  callback-url: #回调地址配置集合，如下
-    sign-flow: https://www.123.com/ #这里的sign-flow为自定义key
 logging:
   level:
     io.github.easy.esign: info #日志级别，推荐info，打印参数地址和返回值
+
+esign-v3:
+  print-banner: true #打印banner图
+  default-config-name: app1
+  configs:
+    - name: app1
+      app-id: #e签宝的appId
+      secret: #e钱包的secret
+      sandbox: true #沙箱模式
+    - name: app2
+      app-id: #e签宝的appId
+      secret: #e钱包的secret
+      sandbox: false #沙箱模式
 ```
 
-- 配置文件，不用springboot自动加载的需要在resources下创建文件esign-v3.properties
+- 配置文件，不用springboot加载的需要在resources下创建文件esign-v3.properties，现修改为多APP，适配中
+
 ```properties
-esign-v3.app-id=
-esign-v3.secret=
-esign-v3.sandbox=true
-esign-v3.print-banner=true
-esign-v3.callback-url.sign-flow=https://www.123.com/
+#esign-v3.app-id=
+#esign-v3.secret=
+#esign-v3.sandbox=true
+#esign-v3.print-banner=true
+#esign-v3.callback-url.sign-flow=https://www.123.com/
 ```
 
 - springboot项目
+
 ```java
+
 @Autowired
 private ESignOrgAuthSrv ESignOrgAuthSrv;
 
@@ -70,11 +82,36 @@ public Object demo01(@RequestBody OrgIdentityInfoReq request) {
 ```
 
 - 其他
+
 ```
 ESignOrgAuthSrv signOrgAuthSrv = ESignOrgAuthSrv.getInstance();
 ESignResp<OrgIdentityInfoResp> orgIdentityInfoResponseESignResp = signOrgAuthSrv.identityInfo(orgIdentityInfoReq);
 ```
+
+- 多APP，注解式
+
+```java
+/**
+ * 使用该注解切换e签宝app，此处value为配置的app name，非空
+ * 默认app则不需要添加，可作用于类和方法上，方法优先级高于类
+ * aop原理，aop失效会导致该注解失效
+ */
+@SwitchESignApp("app1")
+```
+
+- 多APP切换，编程式，不建议使用
+
+```java
+ESignOrgAuthSrv orgAuthSrv = ESignOrgAuthSrv.getInstance();
+ESignManager.switchExecute("app1");
+//业务逻辑：
+ESignResp<OrgIdentityInfoResp> resp = orgAuthSrv.identityInfo(request);
+ESignManager.clearExecute();
+```
+
 ### 依赖引入（待发布）
-> 
-> 
-#### 鸣谢，项目灵感来源于 https://github.com/psoho/fastesign 因业务需要在其基础上做了一些扩展
+
+>
+>
+
+#### 鸣谢，项目灵感来源于 https://github.com/psoho/fastesign
