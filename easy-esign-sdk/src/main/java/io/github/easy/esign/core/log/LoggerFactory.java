@@ -1,6 +1,5 @@
 package io.github.easy.esign.core.log;
 
-import io.github.easy.esign.core.error.ESignException;
 import io.github.easy.esign.core.log.impl.Slf4JLogger;
 import io.github.easy.esign.core.log.impl.SystemLogger;
 import org.slf4j.helpers.NOPLogger;
@@ -18,7 +17,7 @@ public class LoggerFactory {
             try {
                 org.slf4j.Logger slf4JLogger = org.slf4j.LoggerFactory.getLogger(clazz);
                 if (slf4JLogger instanceof NOPLogger) {
-                    throw new ESignException("没有slf4j的日志实现");
+                    System.err.println("No log implementation found for sl4j !");
                 }
                 loggers.put(className, new Slf4JLogger(slf4JLogger));
             } catch (Exception e) {
