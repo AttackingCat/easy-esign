@@ -2,13 +2,17 @@ spring:
   application:
     name: demo
 esign-v3:
-  app-id: your app id
-  secret: your app secret
-  sandbox: true
   print-banner: true
-  callback-url:
-    sign-flow: https://www.baidu.com
-    sign-flow-file: https://www.baidu.com
+  default-config-name: app1
+  configs:
+    - name: app1
+      app-id: your app id
+      secret: your app secret
+      sandbox: true
+    - name: app2
+      app-id: your app id
+      secret: your app secret
+      sandbox: false
 server:
   port: 8080
   servlet:
