@@ -2,16 +2,22 @@ package io.github.easy.esign.core;
 
 import io.github.easy.esign.core.config.ESignConfig;
 import io.github.easy.esign.core.error.ESignException;
+import io.github.easy.esign.core.error.ErrorCodeDefine;
 import io.github.easy.esign.core.log.Logger;
 import io.github.easy.esign.core.log.LoggerFactory;
 import io.github.easy.esign.struct.ESignResp;
 import io.github.easy.esign.utils.Base64Util;
+import io.github.easy.esign.utils.JsonUtil;
 import io.github.easy.esign.utils.StrUtil;
 import lombok.Getter;
+import lombok.SneakyThrows;
 import lombok.Synchronized;
 import okhttp3.*;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 import static io.github.easy.esign.core.constant.Constant.*;
 import static io.github.easy.esign.utils.DigestUtil.md5Digest;
@@ -21,6 +27,7 @@ import static io.github.easy.esign.utils.JsonUtil.toJsonStr;
 
 public final class Execute {
 
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Execute.class);
     private ESignConfig config;
 
     @Getter
@@ -38,18 +45,6 @@ public final class Execute {
         this.appName = config.getName();
         init();
     }
-/*
-    private Logger getLog() {
-        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-        String key = null;
-        for (StackTraceElement stackTraceElement : stackTrace) {
-            if (stackTraceElement.getClassName().contains("io.github.easy.esign.api")) {
-                key = stackTraceElement.getClassName();
-            }
-        }
-        return loggerMap.getOrDefault(key, baseLog);
-    }
-*/
 
     @Synchronized
     private void init() {
@@ -59,7 +54,7 @@ public final class Execute {
                         logger.debug("method: %s", chain.request().method());
                         logger.debug("url: %s", chain.request().url().url());
                         logger.debug("headers: \n%s", chain.request().headers());
-                        return chain.proceed(chain.request());
+                        return handlerError(chain.proceed(chain.request()));
                     })
                     .build();
         }
@@ -120,14 +115,7 @@ public final class Execute {
         logger.info("payload: " + payload);
 
         try (Response resp = httpClient.newCall(httpRequest).execute()) {
-            if (resp.body() == null) {
-                throw new ESignException("response body is null");
-            }
-            if (!resp.isSuccessful()) {
-                String msg = String.format("request failed: %s", resp.body().string());
-                throw new ESignException(msg);
-            }
-            String text = resp.body().string();
+            String text = Objects.requireNonNull(resp.body()).string();
             logger.info("response: " + text);
             return text;
         } catch (IOException e) {
@@ -137,6 +125,52 @@ public final class Execute {
 
     private String getUrl(String path) {
         return (config.getSandbox() ? endpointSandbox : endpoint) + path;
+    }
+
+    @SneakyThrows
+    private Response handlerError(Response response) {
+        if (response.body() == null) {
+            throw new ESignException("response body is null");
+        }
+        String respStr = response.body().string();
+        String failCode = "";
+        String failMsg;
+        if (!response.isSuccessful()) {
+            failCode = String.valueOf(response.code());
+            failMsg = JsonUtil.parseString(respStr).path("message").asText();
+        } else {
+            ESignResp<?> eSignResp = Objects.requireNonNull(JsonUtil.parseObject(respStr, ESignResp.class));
+            if (eSignResp.getCode() != 0) {
+                failCode = String.valueOf(eSignResp.getCode());
+                failMsg = eSignResp.getMessage();
+            } else {
+                failMsg = "";
+            }
+        }
+
+        if (StrUtil.isNotBlank(failCode)) {
+            logger.error("AppId: " + config.getAppId());
+            logger.error("Url: " + response.request().url().url());
+            List<ErrorCodeDefine.Explanation> explanations = ErrorCodeDefine.searchCauseByCode(failCode);
+            Optional<ErrorCodeDefine.Explanation> maybe = explanations
+                    .stream()
+                    .filter(e -> Objects.equals(e.getDescription(), failMsg))
+                    .findAny();
+
+            if (maybe.isPresent()) {
+                logger.error("Error solution: " + maybe.get().getErrorCodeExplanation());
+            } else {
+                explanations.forEach(e -> logger.info("Error solution: " + e.getErrorCodeExplanation()));
+            }
+            logger.error("Document helper: " + "https://open.esign.cn/doc/opendoc/pdf-sign3/nx6lc2cfnhk4qaxt");
+            throw new ESignException(respStr);
+        }
+
+        return response
+                .newBuilder()
+                .body(ResponseBody.create(respStr, response.body().contentType()))
+                .code(response.code())
+                .build();
     }
 
 

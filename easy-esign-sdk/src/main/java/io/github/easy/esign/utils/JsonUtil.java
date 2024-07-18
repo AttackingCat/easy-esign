@@ -2,6 +2,7 @@ package io.github.easy.esign.utils;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.easy.esign.core.error.ESignException;
 import io.github.easy.esign.struct.ESignResp;
@@ -46,6 +47,14 @@ public class JsonUtil {
         try {
             JavaType type = objectMapper.getTypeFactory().constructParametricType(ESignResp.class, clazz);
             return objectMapper.readValue(text, type);
+        } catch (Exception e) {
+            throw new ESignException(e);
+        }
+    }
+
+    public static JsonNode parseString(String text) {
+        try {
+            return objectMapper.readTree(text);
         } catch (Exception e) {
             throw new ESignException(e);
         }

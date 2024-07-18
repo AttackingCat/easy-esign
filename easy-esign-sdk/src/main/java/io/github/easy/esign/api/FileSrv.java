@@ -27,14 +27,14 @@ import static io.github.easy.esign.core.constant.Constant.PDF_CT;
  * 文件&模板
  */
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class FileAbstractSrv extends AbstractSrv {
+public class FileSrv extends AbstractSrv {
 
-    private static FileAbstractSrv instance;
+    private static FileSrv instance;
 
     @Synchronized
-    public static FileAbstractSrv getInstance() {
+    public static FileSrv getInstance() {
         if (instance == null) {
-            instance = new FileAbstractSrv();
+            instance = new FileSrv();
         }
         return instance;
     }
