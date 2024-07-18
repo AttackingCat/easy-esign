@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
-public class ESignConfigRegister {
+public class ESignRegister {
 
     /**
      * 获取配置Bean
