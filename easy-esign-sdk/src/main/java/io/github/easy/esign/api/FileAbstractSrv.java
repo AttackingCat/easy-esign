@@ -1,6 +1,6 @@
-package io.github.easy.esign.core.api;
+package io.github.easy.esign.api;
 
-import io.github.easy.esign.core.api.abs.SrvTemp;
+import io.github.easy.esign.api.abs.AbstractSrv;
 import io.github.easy.esign.core.error.ESignException;
 import io.github.easy.esign.struct.ESignResp;
 import io.github.easy.esign.struct.file.req.FileUrlReq;
@@ -27,14 +27,14 @@ import static io.github.easy.esign.core.constant.Constant.PDF_CT;
  * 文件&模板
  */
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class FileSrv extends SrvTemp {
+public class FileAbstractSrv extends AbstractSrv {
 
-    private static FileSrv instance;
+    private static FileAbstractSrv instance;
 
     @Synchronized
-    public static FileSrv getInstance() {
+    public static FileAbstractSrv getInstance() {
         if (instance == null) {
-            instance = new FileSrv();
+            instance = new FileAbstractSrv();
         }
         return instance;
     }

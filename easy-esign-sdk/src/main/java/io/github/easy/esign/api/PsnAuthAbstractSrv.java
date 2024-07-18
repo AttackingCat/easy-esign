@@ -1,7 +1,6 @@
-package io.github.easy.esign.core.api;
+package io.github.easy.esign.api;
 
-import io.github.easy.esign.core.Execute;
-import io.github.easy.esign.core.api.abs.SrvTemp;
+import io.github.easy.esign.api.abs.AbstractSrv;
 import io.github.easy.esign.struct.auth.resp.AuthorizedInfoResp;
 import io.github.easy.esign.struct.auth.resp.PsnIdentityInfoResp;
 import io.github.easy.esign.struct.ESignResp;
@@ -18,14 +17,14 @@ import lombok.Synchronized;
  * 授权认证
  */
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class PsnAuthSrv extends SrvTemp {
+public class PsnAuthAbstractSrv extends AbstractSrv {
 
-    private static PsnAuthSrv instance;
+    private static PsnAuthAbstractSrv instance;
 
     @Synchronized
-    public static PsnAuthSrv getInstance() {
+    public static PsnAuthAbstractSrv getInstance() {
         if (instance == null) {
-            instance = new PsnAuthSrv();
+            instance = new PsnAuthAbstractSrv();
         }
         return instance;
     }

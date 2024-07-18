@@ -1,7 +1,6 @@
-package io.github.easy.esign.core.api;
+package io.github.easy.esign.api;
 
-import io.github.easy.esign.core.Execute;
-import io.github.easy.esign.core.api.abs.SrvTemp;
+import io.github.easy.esign.api.abs.AbstractSrv;
 import io.github.easy.esign.struct.seal.resp.SealInfoResp;
 import io.github.easy.esign.struct.ESignResp;
 import lombok.AccessLevel;
@@ -13,14 +12,14 @@ import lombok.Synchronized;
  * 授权认证
  */
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class OrgSealSrv extends SrvTemp {
+public class OrgSealAbstractSrv extends AbstractSrv {
 
-    private static OrgSealSrv instance;
+    private static OrgSealAbstractSrv instance;
 
     @Synchronized
-    public static OrgSealSrv getInstance() {
+    public static OrgSealAbstractSrv getInstance() {
         if (instance == null) {
-            instance = new OrgSealSrv();
+            instance = new OrgSealAbstractSrv();
         }
         return instance;
     }

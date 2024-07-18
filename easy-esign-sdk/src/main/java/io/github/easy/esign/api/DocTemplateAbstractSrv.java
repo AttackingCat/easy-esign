@@ -1,7 +1,8 @@
-package io.github.easy.esign.core.api;
+package io.github.easy.esign.api;
 
-import io.github.easy.esign.core.Execute;
-import io.github.easy.esign.core.api.abs.SrvTemp;
+import io.github.easy.esign.api.abs.AbstractSrv;
+import io.github.easy.esign.core.log.Logger;
+import io.github.easy.esign.core.log.LoggerFactory;
 import io.github.easy.esign.struct.doc.req.DocTemplateEditUrlReq;
 import io.github.easy.esign.struct.doc.resp.DocTemplateEditUrlResp;
 import io.github.easy.esign.struct.ESignResp;
@@ -15,14 +16,16 @@ import lombok.Synchronized;
  * 文件&模板
  */
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class DocTemplateSrv extends SrvTemp {
+public class DocTemplateAbstractSrv extends AbstractSrv {
 
-    private static DocTemplateSrv instance;
+    private final Logger logger = LoggerFactory.getLogger(DocTemplateAbstractSrv.class);
+
+    private static DocTemplateAbstractSrv instance;
 
     @Synchronized
-    public static DocTemplateSrv getInstance() {
+    public static DocTemplateAbstractSrv getInstance() {
         if (instance == null) {
-            instance = new DocTemplateSrv();
+            instance = new DocTemplateAbstractSrv();
         }
         return instance;
     }

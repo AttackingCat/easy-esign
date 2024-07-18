@@ -1,7 +1,6 @@
-package io.github.easy.esign.core.api;
+package io.github.easy.esign.api;
 
-import io.github.easy.esign.core.Execute;
-import io.github.easy.esign.core.api.abs.SrvTemp;
+import io.github.easy.esign.api.abs.AbstractSrv;
 import io.github.easy.esign.struct.ESignResp;
 import io.github.easy.esign.struct.doc.resp.FilesCreateByDocTemplateReq;
 import io.github.easy.esign.struct.sign.resp.*;
@@ -18,14 +17,14 @@ import lombok.Synchronized;
  * 签署
  */
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class SignFlowSrv extends SrvTemp {
+public class SignFlowAbstractSrv extends AbstractSrv {
 
-    private static SignFlowSrv instance;
+    private static SignFlowAbstractSrv instance;
 
     @Synchronized
-    public static SignFlowSrv getInstance() {
+    public static SignFlowAbstractSrv getInstance() {
         if (instance == null) {
-            instance = new SignFlowSrv();
+            instance = new SignFlowAbstractSrv();
         }
         return instance;
     }

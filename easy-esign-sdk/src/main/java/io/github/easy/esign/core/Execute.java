@@ -7,65 +7,58 @@ import io.github.easy.esign.core.log.LoggerFactory;
 import io.github.easy.esign.struct.ESignResp;
 import io.github.easy.esign.utils.Base64Util;
 import io.github.easy.esign.utils.StrUtil;
+import lombok.Getter;
 import lombok.Synchronized;
 import okhttp3.*;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import static io.github.easy.esign.core.constant.Constant.*;
 import static io.github.easy.esign.utils.DigestUtil.md5Digest;
 import static io.github.easy.esign.utils.DigestUtil.signatureBase64;
-import static io.github.easy.esign.utils.JsonUtil.*;
+import static io.github.easy.esign.utils.JsonUtil.parseESignResp;
+import static io.github.easy.esign.utils.JsonUtil.toJsonStr;
 
 public final class Execute {
 
-    private static ESignConfig config;
+    private ESignConfig config;
 
-    private final static Map<String, Logger> loggerMap = new HashMap<>();
+    @Getter
+    private final String appName;
 
     private static OkHttpClient httpClient;
 
-    private final static Logger baseLog = LoggerFactory.getLogger(Execute.class);
+    private final static Logger logger = LoggerFactory.getLogger(Execute.class);
 
     public Execute(ESignConfig config) {
         if (config == null) {
-            config = Manager.getConfig();
+            throw new ESignException("config is null");
         }
-        Execute.config = config;
+        this.config = config;
+        this.appName = config.getName();
         init();
     }
-
-    @Synchronized
-    public static void setLog(Class<?> clazz) {
-        if (clazz == null) {
-            return;
-        }
-        if (loggerMap.get(clazz.getName()) == null) {
-            loggerMap.put(clazz.getName(), LoggerFactory.getLogger(clazz));
-        }
-    }
-
+/*
     private Logger getLog() {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         String key = null;
         for (StackTraceElement stackTraceElement : stackTrace) {
-            if (stackTraceElement.getClassName().contains("io.github.easy.esign.core.api")) {
+            if (stackTraceElement.getClassName().contains("io.github.easy.esign.api")) {
                 key = stackTraceElement.getClassName();
             }
         }
         return loggerMap.getOrDefault(key, baseLog);
     }
+*/
 
     @Synchronized
     private void init() {
         if (httpClient == null) {
             httpClient = new OkHttpClient().newBuilder()
                     .addInterceptor(chain -> {
-                        baseLog.debug("method: %s", chain.request().method());
-                        baseLog.debug("url: %s", chain.request().url().url());
-                        baseLog.debug("headers: \n%s", chain.request().headers());
+                        logger.debug("method: %s", chain.request().method());
+                        logger.debug("url: %s", chain.request().url().url());
+                        logger.debug("headers: \n%s", chain.request().headers());
                         return chain.proceed(chain.request());
                     })
                     .build();
@@ -88,7 +81,6 @@ public final class Execute {
     }
 
     private String request(String path, String method, String payload) {
-        Logger log = getLog();
 
         String contentType = JSON_CT;
         if (method.equals(GET) || method.equals(DELETE)) {
@@ -124,8 +116,8 @@ public final class Execute {
         builder.method(method, body);
 
         Request httpRequest = builder.build();
-        log.info("path: " + path);
-        log.info("payload: " + payload);
+        logger.info("path: " + path);
+        logger.info("payload: " + payload);
 
         try (Response resp = httpClient.newCall(httpRequest).execute()) {
             if (resp.body() == null) {
@@ -136,14 +128,14 @@ public final class Execute {
                 throw new ESignException(msg);
             }
             String text = resp.body().string();
-            log.info("response: " + text);
+            logger.info("response: " + text);
             return text;
         } catch (IOException e) {
             throw new ESignException(e);
         }
     }
 
-    private static String getUrl(String path) {
+    private String getUrl(String path) {
         return (config.getSandbox() ? endpointSandbox : endpoint) + path;
     }
 
@@ -154,5 +146,6 @@ public final class Execute {
 
     public void close() {
         httpClient.connectionPool().evictAll();
+        config = null;
     }
 }
