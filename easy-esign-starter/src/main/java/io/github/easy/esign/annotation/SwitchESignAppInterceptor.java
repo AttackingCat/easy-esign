@@ -1,6 +1,6 @@
 package io.github.easy.esign.annotation;
 
-import io.github.easy.esign.core.ESignManager;
+import io.github.easy.esign.ESignManager;
 import io.github.easy.esign.utils.StrUtil;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;

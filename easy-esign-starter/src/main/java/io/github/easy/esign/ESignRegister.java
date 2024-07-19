@@ -2,8 +2,7 @@ package io.github.easy.esign;
 
 import io.github.easy.esign.annotation.SwitchESignApp;
 import io.github.easy.esign.annotation.SwitchESignAppInterceptor;
-import io.github.easy.esign.api.*;
-import io.github.easy.esign.core.config.ESignConfigs;
+import io.github.easy.esign.config.ESignConfigs;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.aop.support.annotation.AnnotationMatchingPointcut;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;

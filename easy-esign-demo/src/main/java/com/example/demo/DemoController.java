@@ -1,7 +1,7 @@
 package com.example.demo;
 
-import io.github.easy.esign.api.OrgAuthAbstractSrv;
-import io.github.easy.esign.api.PsnAuthAbstractSrv;
+import io.github.easy.esign.OrgAuthAbstractSrv;
+import io.github.easy.esign.PsnAuthAbstractSrv;
 import io.github.easy.esign.struct.auth.req.OrgIdentityInfoReq;
 import io.github.easy.esign.struct.auth.req.PsnIdentityInfoReq;
 import org.springframework.beans.factory.annotation.Autowired;
