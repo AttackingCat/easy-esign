@@ -29,7 +29,6 @@ import static io.github.easy.esign.utils.JsonUtil.toJsonStr;
 
 public final class Execute {
 
-    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Execute.class);
     private ESignConfig config;
 
     @Getter
