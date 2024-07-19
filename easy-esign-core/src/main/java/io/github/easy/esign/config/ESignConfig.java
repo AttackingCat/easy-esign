@@ -19,4 +19,6 @@ public class ESignConfig {
      * 开启沙箱模式
      */
     Boolean sandbox = false;
+
+    Proxy proxy;
 }

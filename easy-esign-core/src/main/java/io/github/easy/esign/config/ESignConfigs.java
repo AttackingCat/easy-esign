@@ -18,6 +18,16 @@ public class ESignConfigs {
     Boolean printBanner = true;
 
     /**
+     * 是否自动解释错误，要求可以访问该域名 tapi.esign.cn
+     */
+    Boolean autoExplanation = true;
+
+    /**
+     * 代理
+     */
+    Proxy proxy;
+
+    /**
      * 配置集合
      */
     List<ESignConfig> configs;

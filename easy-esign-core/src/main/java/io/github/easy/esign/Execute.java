@@ -15,6 +15,8 @@ import lombok.Synchronized;
 import okhttp3.*;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -49,7 +51,14 @@ public final class Execute {
     @Synchronized
     private void init() {
         if (httpClient == null) {
+
+            Proxy proxy = null;
+            if (config.getProxy() != null) {
+                proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(config.getProxy().getHostName(), config.getProxy().getPort()));
+            }
+
             httpClient = new OkHttpClient().newBuilder()
+                    .proxy(proxy)
                     .addInterceptor(chain -> {
                         logger.debug("method: %s", chain.request().method());
                         logger.debug("url: %s", chain.request().url().url());
@@ -151,16 +160,18 @@ public final class Execute {
         if (StrUtil.isNotBlank(failCode)) {
             logger.warn("AppId: " + config.getAppId());
             logger.warn("Url: " + response.request().url().url());
-            List<ErrorCodeDefine.Explanation> explanations = ErrorCodeDefine.searchCauseByCode(failCode);
-            Optional<ErrorCodeDefine.Explanation> maybe = explanations
-                    .stream()
-                    .filter(e -> Objects.equals(e.getDescription(), failMsg))
-                    .findAny();
+            if (ESignManager.getAutoExplanation()) {
+                List<ErrorCodeDefine.Explanation> explanations = ErrorCodeDefine.searchCauseByCode(failCode);
+                Optional<ErrorCodeDefine.Explanation> maybe = explanations
+                        .stream()
+                        .filter(e -> Objects.equals(e.getDescription(), failMsg))
+                        .findAny();
 
-            if (maybe.isPresent()) {
-                logger.warn("Error solution: " + maybe.get().getErrorCodeExplanation());
-            } else {
-                explanations.forEach(e -> logger.warn("Error solution: " + e.getErrorCodeExplanation()));
+                if (maybe.isPresent()) {
+                    logger.warn("Error solution: " + maybe.get().getErrorCodeExplanation());
+                } else {
+                    explanations.forEach(e -> logger.warn("Error solution: " + e.getErrorCodeExplanation()));
+                }
             }
             logger.warn("Document helper: " + "https://open.esign.cn/doc/opendoc/pdf-sign3/nx6lc2cfnhk4qaxt");
             throw new ESignException(respStr);

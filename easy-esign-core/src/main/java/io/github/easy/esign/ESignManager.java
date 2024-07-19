@@ -28,6 +28,10 @@ public class ESignManager {
         }));
     }
 
+    public static Boolean getAutoExplanation() {
+        return configs.getAutoExplanation();
+    }
+
     //TODO use private
     public static void setConfigs(ESignConfigs configs) {
         logger.info("Log use: %s", logger.getClass());
@@ -41,6 +45,7 @@ public class ESignManager {
         List<ESignConfig> appConfigs = configs.getConfigs();
 
         for (ESignConfig cfg : appConfigs) {
+            // Check
             if (StrUtil.isBlank(cfg.getName()) && appConfigs.size() == 1) {
                 logger.info("That configuration must hava a name, appId=%s", cfg.getAppId());
             }
@@ -48,7 +53,15 @@ public class ESignManager {
                 String msg = String.format("Configuration name: %s init fail! Please cheek your appId and secret", cfg.getName());
                 throw new ESignException(msg);
             }
+            // Proxy
+            if (cfg.getProxy() != null) {
+                logger.info("ESign proxy: %s", cfg.getProxy().toString());
+            } else if (configs.getProxy() != null) {
+                cfg.setProxy(configs.getProxy());
+                logger.info("ESign proxy: %s", configs.getProxy().toString());
+            }
 
+            // Init and Manager
             executeMap.put(cfg.getName(), initExecute(cfg));
 
             logger.info("ESign appId: %s", cfg.getAppId());
