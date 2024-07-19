@@ -19,7 +19,7 @@ public abstract class AbstractSrv {
         if (execute == null) {
             throw new ESignException("Can't find execute, because @SwitchApp.name is null or empty string");
         }
-        logger.info("Current esign app: " + execute.getAppName());
+        logger.debug("Current esign app: " + execute.getAppName());
         return execute;
     }
 }

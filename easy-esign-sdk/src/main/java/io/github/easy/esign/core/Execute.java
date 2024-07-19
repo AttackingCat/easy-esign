@@ -149,8 +149,8 @@ public final class Execute {
         }
 
         if (StrUtil.isNotBlank(failCode)) {
-            logger.error("AppId: " + config.getAppId());
-            logger.error("Url: " + response.request().url().url());
+            logger.warn("AppId: " + config.getAppId());
+            logger.warn("Url: " + response.request().url().url());
             List<ErrorCodeDefine.Explanation> explanations = ErrorCodeDefine.searchCauseByCode(failCode);
             Optional<ErrorCodeDefine.Explanation> maybe = explanations
                     .stream()
@@ -158,11 +158,11 @@ public final class Execute {
                     .findAny();
 
             if (maybe.isPresent()) {
-                logger.error("Error solution: " + maybe.get().getErrorCodeExplanation());
+                logger.warn("Error solution: " + maybe.get().getErrorCodeExplanation());
             } else {
-                explanations.forEach(e -> logger.info("Error solution: " + e.getErrorCodeExplanation()));
+                explanations.forEach(e -> logger.warn("Error solution: " + e.getErrorCodeExplanation()));
             }
-            logger.error("Document helper: " + "https://open.esign.cn/doc/opendoc/pdf-sign3/nx6lc2cfnhk4qaxt");
+            logger.warn("Document helper: " + "https://open.esign.cn/doc/opendoc/pdf-sign3/nx6lc2cfnhk4qaxt");
             throw new ESignException(respStr);
         }
 
