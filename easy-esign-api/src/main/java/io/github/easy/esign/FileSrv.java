@@ -19,8 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
-import static io.github.easy.esign.constant.Constant.JSON_CT;
-import static io.github.easy.esign.constant.Constant.PDF_CT;
+import static io.github.easy.esign.constant.ContentType.*;
 
 /**
  * 文件&模板

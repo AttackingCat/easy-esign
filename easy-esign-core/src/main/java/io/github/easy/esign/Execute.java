@@ -21,7 +21,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import static io.github.easy.esign.constant.Constant.*;
+import static io.github.easy.esign.constant.ContentType.JSON_CT;
+import static io.github.easy.esign.constant.Domain.endpoint;
+import static io.github.easy.esign.constant.Domain.endpointSandbox;
+import static io.github.easy.esign.constant.HttpMethod.*;
 import static io.github.easy.esign.utils.DigestUtil.md5Digest;
 import static io.github.easy.esign.utils.DigestUtil.signatureBase64;
 import static io.github.easy.esign.utils.JsonUtil.parseESignResp;
@@ -121,7 +124,6 @@ public final class Execute {
         Request httpRequest = builder.build();
         logger.info("path: " + path);
         logger.info("payload: " + payload);
-
         try (Response resp = httpClient.newCall(httpRequest).execute()) {
             String text = Objects.requireNonNull(resp.body()).string();
             logger.info("response: " + text);
