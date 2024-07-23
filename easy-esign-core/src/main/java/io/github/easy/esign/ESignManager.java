@@ -32,8 +32,10 @@ public class ESignManager {
         return configs.getAutoExplanation();
     }
 
-    //TODO use private
-    public static void setConfigs(ESignConfigs configs) {
+    public synchronized static void init(ESignConfigs configs) {
+        if (ESignManager.configs != null) {
+            throw new ESignException("ESign Configuration file repeat, if using Spring framework configuration, please delete esign-v3.properties!");
+        }
         logger.info("Log use: %s", logger.getClass());
         if (configs == null) {
             throw new ESignException("Configuration not found,please check your config file!");
