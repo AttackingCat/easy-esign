@@ -37,6 +37,7 @@ https://open.esign.cn/doc/opendoc/apiv3-guide/tfb6gn
 
 ### 使用方式
 
+#### 配置
 - 配置文件，springboot中可以自动加载的情况
 
 ```yaml
@@ -47,6 +48,10 @@ logging:
 esign-v3:
   print-banner: true #打印banner图
   default-config-name: app1
+  auto-explanation: true #默认开启，是否自动解释错误，要求可以访问该域名 tapi.esign.cn
+  proxy:
+    host-name: 127.0.0.1 #代理地址
+    port: 8080
   configs:
     - name: app1
       app-id: #e签宝的appId
@@ -58,16 +63,12 @@ esign-v3:
       sandbox: false #沙箱模式
 ```
 
-- 配置文件，不用springboot加载的需要在resources下创建文件esign-v3.properties，现修改为多APP，适配中
+- 自定义配置，项目初始化时调用该方法自行注入
 
-```properties
-#esign-v3.app-id=
-#esign-v3.secret=
-#esign-v3.sandbox=true
-#esign-v3.print-banner=true
-#esign-v3.callback-url.sign-flow=https://www.123.com/
+```java
+ESignManager.init(new ESignConfigs());
 ```
-
+#### 调用
 - springboot项目
 
 ```java
@@ -83,12 +84,13 @@ public Object demo01(@RequestBody OrgIdentityInfoReq request) {
 
 - 其他
 
-```
+``` java
 ESignOrgAuthSrv signOrgAuthSrv = ESignOrgAuthSrv.getInstance();
 ESignResp<OrgIdentityInfoResp> orgIdentityInfoResponseESignResp = signOrgAuthSrv.identityInfo(orgIdentityInfoReq);
 ```
 
-- 多APP，注解式
+#### 多APP切换
+- 注解式，spring环境
 
 ```java
 /**
@@ -99,7 +101,7 @@ ESignResp<OrgIdentityInfoResp> orgIdentityInfoResponseESignResp = signOrgAuthSrv
 @SwitchESignApp("app1")
 ```
 
-- 多APP切换，编程式，不建议使用
+- 编程式，不建议使用
 
 ```java
 ESignOrgAuthSrv orgAuthSrv = ESignOrgAuthSrv.getInstance();
