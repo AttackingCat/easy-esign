@@ -7,22 +7,20 @@ import io.github.easy.esign.struct.auth.resp.AuthorizedInfoResp;
 import io.github.easy.esign.struct.auth.resp.PsnAuthResp;
 import io.github.easy.esign.struct.auth.resp.PsnIdentityInfoResp;
 import io.github.easy.esign.utils.UrlUtil;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Synchronized;
 
 
 /**
  * 授权认证
  */
-public class PsnAuthAbstractSrv extends AbstractSrv {
+public class PsnAuthSrv extends AbstractSrv {
 
-    private static PsnAuthAbstractSrv instance;
+    private static PsnAuthSrv instance;
 
     @Synchronized
-    public static PsnAuthAbstractSrv getInstance() {
+    public static PsnAuthSrv getInstance() {
         if (instance == null) {
-            instance = new PsnAuthAbstractSrv();
+            instance = new PsnAuthSrv();
         }
         return instance;
     }

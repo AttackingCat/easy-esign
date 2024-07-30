@@ -1,6 +1,6 @@
 package com.example.demo;
 
-import io.github.easy.esign.OrgAuthAbstractSrv;
+import io.github.easy.esign.OrgAuthSrv;
 import io.github.easy.esign.struct.ESignResp;
 import io.github.easy.esign.struct.auth.req.OrgIdentityInfoReq;
 import io.github.easy.esign.struct.auth.resp.OrgIdentityInfoResp;
@@ -11,7 +11,7 @@ public class Demo01 {
         OrgIdentityInfoReq orgIdentityInfoReq = new OrgIdentityInfoReq();
         orgIdentityInfoReq.setOrgIDCardNum("910000622326970013");
         orgIdentityInfoReq.setOrgIDCardType(OrgIDCardType.CRED_ORG_USCC);
-        OrgAuthAbstractSrv signOrgAuthSrv = OrgAuthAbstractSrv.getInstance();
+        OrgAuthSrv signOrgAuthSrv = OrgAuthSrv.getInstance();
         ESignResp<OrgIdentityInfoResp> orgIdentityInfoResponseESignResp = signOrgAuthSrv.identityInfo(orgIdentityInfoReq);
         System.out.println(orgIdentityInfoResponseESignResp);
     }

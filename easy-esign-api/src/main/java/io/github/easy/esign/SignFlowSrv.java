@@ -13,14 +13,14 @@ import lombok.Synchronized;
 /**
  * 签署
  */
-public class SignFlowAbstractSrv extends AbstractSrv {
+public class SignFlowSrv extends AbstractSrv {
 
-    private static SignFlowAbstractSrv instance;
+    private static SignFlowSrv instance;
 
     @Synchronized
-    public static SignFlowAbstractSrv getInstance() {
+    public static SignFlowSrv getInstance() {
         if (instance == null) {
-            instance = new SignFlowAbstractSrv();
+            instance = new SignFlowSrv();
         }
         return instance;
     }

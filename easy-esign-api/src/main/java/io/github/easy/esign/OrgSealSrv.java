@@ -2,22 +2,20 @@ package io.github.easy.esign;
 
 import io.github.easy.esign.struct.ESignResp;
 import io.github.easy.esign.struct.seal.resp.SealInfoResp;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Synchronized;
 
 
 /**
  * 授权认证
  */
-public class OrgSealAbstractSrv extends AbstractSrv {
+public class OrgSealSrv extends AbstractSrv {
 
-    private static OrgSealAbstractSrv instance;
+    private static OrgSealSrv instance;
 
     @Synchronized
-    public static OrgSealAbstractSrv getInstance() {
+    public static OrgSealSrv getInstance() {
         if (instance == null) {
-            instance = new OrgSealAbstractSrv();
+            instance = new OrgSealSrv();
         }
         return instance;
     }

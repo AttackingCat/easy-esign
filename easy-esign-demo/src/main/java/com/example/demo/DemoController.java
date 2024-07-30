@@ -1,7 +1,7 @@
 package com.example.demo;
 
-import io.github.easy.esign.OrgAuthAbstractSrv;
-import io.github.easy.esign.PsnAuthAbstractSrv;
+import io.github.easy.esign.OrgAuthSrv;
+import io.github.easy.esign.PsnAuthSrv;
 import io.github.easy.esign.struct.auth.req.OrgIdentityInfoReq;
 import io.github.easy.esign.struct.auth.req.PsnIdentityInfoReq;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 //@SwitchESignApp("app2")
 public class DemoController {
     @Autowired
-    private OrgAuthAbstractSrv orgAuthSrv;
+    private OrgAuthSrv orgAuthSrv;
     @Autowired
-    private PsnAuthAbstractSrv psnAuthSrv;
+    private PsnAuthSrv psnAuthSrv;
 
     @GetMapping("/info")
     public Object demo01(@RequestBody OrgIdentityInfoReq request) {

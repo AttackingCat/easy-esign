@@ -7,22 +7,20 @@ import io.github.easy.esign.struct.auth.resp.AuthorizedInfoResp;
 import io.github.easy.esign.struct.auth.resp.OrgAuthResp;
 import io.github.easy.esign.struct.auth.resp.OrgIdentityInfoResp;
 import io.github.easy.esign.utils.UrlUtil;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Synchronized;
 
 
 /**
  * 授权认证
  */
-public class OrgAuthAbstractSrv extends AbstractSrv {
+public class OrgAuthSrv extends AbstractSrv {
 
-    private static OrgAuthAbstractSrv instance;
+    private static OrgAuthSrv instance;
 
     @Synchronized
-    public static OrgAuthAbstractSrv getInstance() {
+    public static OrgAuthSrv getInstance() {
         if (instance == null) {
-            instance = new OrgAuthAbstractSrv();
+            instance = new OrgAuthSrv();
         }
         return instance;
     }

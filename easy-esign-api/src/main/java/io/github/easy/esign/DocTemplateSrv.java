@@ -5,21 +5,19 @@ import io.github.easy.esign.struct.doc.req.DocTemplateEditUrlReq;
 import io.github.easy.esign.struct.doc.resp.DocTemplateEditUrlResp;
 import io.github.easy.esign.struct.doc.resp.DocTemplateResp;
 import io.github.easy.esign.struct.doc.resp.DocTemplatesResp;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Synchronized;
 
 /**
  * 文件&模板
  */
-public class DocTemplateAbstractSrv extends AbstractSrv {
+public class DocTemplateSrv extends AbstractSrv {
 
-    private static DocTemplateAbstractSrv instance;
+    private static DocTemplateSrv instance;
 
     @Synchronized
-    public static DocTemplateAbstractSrv getInstance() {
+    public static DocTemplateSrv getInstance() {
         if (instance == null) {
-            instance = new DocTemplateAbstractSrv();
+            instance = new DocTemplateSrv();
         }
         return instance;
     }
