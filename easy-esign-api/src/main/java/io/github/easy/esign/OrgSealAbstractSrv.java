@@ -10,7 +10,6 @@ import lombok.Synchronized;
 /**
  * 授权认证
  */
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class OrgSealAbstractSrv extends AbstractSrv {
 
     private static OrgSealAbstractSrv instance;

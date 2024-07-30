@@ -15,7 +15,6 @@ import lombok.Synchronized;
 /**
  * 授权认证
  */
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class OrgAuthAbstractSrv extends AbstractSrv {
 
     private static OrgAuthAbstractSrv instance;

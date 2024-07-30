@@ -8,14 +8,11 @@ import io.github.easy.esign.struct.sign.req.SignFlowSignUrlReq;
 import io.github.easy.esign.struct.sign.req.SignflowsSignfieldsPlatformSignReq;
 import io.github.easy.esign.struct.sign.resp.*;
 import io.github.easy.esign.utils.UrlUtil;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Synchronized;
 
 /**
  * 签署
  */
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class SignFlowAbstractSrv extends AbstractSrv {
 
     private static SignFlowAbstractSrv instance;

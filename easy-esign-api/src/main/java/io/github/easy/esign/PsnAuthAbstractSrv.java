@@ -15,7 +15,6 @@ import lombok.Synchronized;
 /**
  * 授权认证
  */
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class PsnAuthAbstractSrv extends AbstractSrv {
 
     private static PsnAuthAbstractSrv instance;

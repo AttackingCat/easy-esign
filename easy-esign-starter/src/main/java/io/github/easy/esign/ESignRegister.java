@@ -18,6 +18,7 @@ public class ESignRegister {
      */
 
     @Bean
+    @ConditionalOnBean(ESignConfigs.class)
     public DefaultPointcutAdvisor switchESignAppAdvisor() {
         DefaultPointcutAdvisor advisor = new DefaultPointcutAdvisor();
         AnnotationMatchingPointcut pointcut = new AnnotationMatchingPointcut(SwitchESignApp.class);
@@ -35,36 +36,36 @@ public class ESignRegister {
 
     @Bean
     @ConditionalOnBean(ESignConfigs.class)
+    public ESignInject ESignInject(ESignConfigs cfg) {
+        return new ESignInject(cfg);
+    }
+
+    @Bean
     public DocTemplateAbstractSrv DocTemplateSrv() {
         return DocTemplateAbstractSrv.getInstance();
     }
 
     @Bean
-    @ConditionalOnBean(ESignConfigs.class)
     public FileSrv FileSrv() {
         return FileSrv.getInstance();
     }
 
     @Bean
-    @ConditionalOnBean(ESignConfigs.class)
     public OrgAuthAbstractSrv OrgAuthSrv() {
         return OrgAuthAbstractSrv.getInstance();
     }
 
     @Bean
-    @ConditionalOnBean(ESignConfigs.class)
     public OrgSealAbstractSrv OrgSealSrv() {
         return OrgSealAbstractSrv.getInstance();
     }
 
     @Bean
-    @ConditionalOnBean(ESignConfigs.class)
     public PsnAuthAbstractSrv PsnAuthSrv() {
         return PsnAuthAbstractSrv.getInstance();
     }
 
     @Bean
-    @ConditionalOnBean(ESignConfigs.class)
     public SignFlowAbstractSrv SignFlowSrv() {
         return SignFlowAbstractSrv.getInstance();
     }

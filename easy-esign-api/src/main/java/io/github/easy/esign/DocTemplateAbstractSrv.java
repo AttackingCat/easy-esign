@@ -12,7 +12,6 @@ import lombok.Synchronized;
 /**
  * 文件&模板
  */
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class DocTemplateAbstractSrv extends AbstractSrv {
 
     private static DocTemplateAbstractSrv instance;

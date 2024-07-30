@@ -10,8 +10,6 @@ import io.github.easy.esign.struct.file.resp.FileUrlResp;
 import io.github.easy.esign.struct.file.resp.KeywordsResp;
 import io.github.easy.esign.utils.DigestUtil;
 import io.github.easy.esign.utils.JsonUtil;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Synchronized;
 import okhttp3.*;
 
@@ -19,12 +17,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
-import static io.github.easy.esign.constant.ContentType.*;
+import static io.github.easy.esign.constant.ContentType.JSON_CT;
+import static io.github.easy.esign.constant.ContentType.PDF_CT;
 
 /**
  * 文件&模板
  */
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class FileSrv extends AbstractSrv {
 
     private static FileSrv instance;
