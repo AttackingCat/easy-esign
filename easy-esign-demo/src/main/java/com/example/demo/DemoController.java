@@ -2,6 +2,7 @@ package com.example.demo;
 
 import io.github.easy.esign.OrgAuthSrv;
 import io.github.easy.esign.PsnAuthSrv;
+import io.github.easy.esign.annotation.SwitchESignApp;
 import io.github.easy.esign.struct.auth.req.OrgIdentityInfoReq;
 import io.github.easy.esign.struct.auth.req.PsnIdentityInfoReq;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/demo")
 @RestController
-//@SwitchESignApp("app2")
+@SwitchESignApp(adapter = CustomerESignAdapterImpl.class)
 public class DemoController {
     @Autowired
     private OrgAuthSrv orgAuthSrv;

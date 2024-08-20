@@ -45,12 +45,11 @@
         <dependency>
             <groupId>io.github.acttingcat</groupId>
             <artifactId>easy-esign-starter</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
-            <version>3.3.0</version>
         </dependency>
 
     </dependencies>

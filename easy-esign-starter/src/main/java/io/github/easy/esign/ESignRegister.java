@@ -5,8 +5,10 @@ import io.github.easy.esign.annotation.SwitchESignAppInterceptor;
 import io.github.easy.esign.config.ESignConfigs;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.aop.support.annotation.AnnotationMatchingPointcut;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
 public class ESignRegister {
@@ -18,11 +20,10 @@ public class ESignRegister {
      */
 
     @Bean
-    @ConditionalOnBean(ESignConfigs.class)
-    public DefaultPointcutAdvisor switchESignAppAdvisor() {
+    public DefaultPointcutAdvisor switchESignAppAdvisor(@Autowired ApplicationContext context) {
         DefaultPointcutAdvisor advisor = new DefaultPointcutAdvisor();
         AnnotationMatchingPointcut pointcut = new AnnotationMatchingPointcut(SwitchESignApp.class);
-        SwitchESignAppInterceptor interceptor = new SwitchESignAppInterceptor();
+        SwitchESignAppInterceptor interceptor = new SwitchESignAppInterceptor(context);
         advisor.setPointcut(pointcut);
         advisor.setAdvice(interceptor);
         return advisor;

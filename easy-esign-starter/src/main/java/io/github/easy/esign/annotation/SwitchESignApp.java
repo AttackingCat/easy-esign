@@ -1,5 +1,6 @@
 package io.github.easy.esign.annotation;
 
+import io.github.easy.esign.adapter.ESignAppNameAdapter;
 import org.springframework.core.annotation.AliasFor;
 
 import java.lang.annotation.*;
@@ -13,4 +14,6 @@ public @interface SwitchESignApp {
 
     @AliasFor("name")
     String value() default "";
+
+    Class<? extends ESignAppNameAdapter> adapter() default ESignAppNameAdapter.class;
 }

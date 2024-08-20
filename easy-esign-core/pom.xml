@@ -8,11 +8,10 @@
         <groupId>io.github.attackingcat</groupId>
         <artifactId>easy-esign</artifactId>
         <version>1.0.0-RELEASE</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>easy-esign-core</artifactId>
-    <version>${base.version}</version>
+    <version>1.0.0</version>
 
     <dependencies>
         <dependency>

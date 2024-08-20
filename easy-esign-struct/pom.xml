@@ -7,12 +7,11 @@
     <parent>
         <groupId>io.github.attackingcat</groupId>
         <artifactId>easy-esign</artifactId>
-        <version>1.0.0-RELEASE</version>
-        <relativePath>../pom.xml</relativePath>
+        <version>1.0.0</version>
     </parent>
 
     <artifactId>easy-esign-struct</artifactId>
-    <version>${base.version}</version>
+    <version>1.0.0</version>
 
     <dependencies>
         <dependency>
@@ -28,4 +27,5 @@
             <version>${jackson-bom.version}</version>
         </dependency>
     </dependencies>
+
 </project>
