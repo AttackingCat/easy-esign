@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.github.easy.esign.ESignRegister,
+io.github.easy.esign.ESignRegister

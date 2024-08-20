@@ -11,7 +11,7 @@
 
     <groupId>io.github.attackingcat</groupId>
     <artifactId>easy-esign</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <licenses>
         <license>
@@ -35,7 +35,6 @@
     </developers>
 
     <properties>
-        <base.version>1.0.0-RELEASE</base.version>
         <jackson-bom.version>2.15.0</jackson-bom.version>
         <httpclient5.version>5.1.4</httpclient5.version>
         <okhttp.version>4.12.0</okhttp.version>

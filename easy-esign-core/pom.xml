@@ -7,17 +7,21 @@
     <parent>
         <groupId>io.github.attackingcat</groupId>
         <artifactId>easy-esign</artifactId>
-        <version>1.0.0-RELEASE</version>
+        <version>1.0.1</version>
     </parent>
 
     <artifactId>easy-esign-core</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
+
+    <properties>
+        <sdk.version>1.0.1</sdk.version>
+    </properties>
 
     <dependencies>
         <dependency>
             <groupId>io.github.attackingcat</groupId>
             <artifactId>easy-esign-struct</artifactId>
-            <version>${base.version}</version>
+            <version>${sdk.version}</version>
             <scope>compile</scope>
         </dependency>
 

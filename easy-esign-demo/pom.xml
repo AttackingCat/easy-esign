@@ -43,9 +43,9 @@
         </dependency>
 
         <dependency>
-            <groupId>io.github.acttingcat</groupId>
+            <groupId>io.github.attackingcat</groupId>
             <artifactId>easy-esign-starter</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -53,16 +53,16 @@
         </dependency>
 
     </dependencies>
-    <repositories>
-        <repository>
-            <id>public</id>
-            <name>阿里云公共仓库</name>
-            <url>https://maven.aliyun.com/repository/public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </repository>
-    </repositories>
+<!--    <repositories>-->
+<!--        <repository>-->
+<!--            <id>public</id>-->
+<!--            <name>阿里云公共仓库</name>-->
+<!--            <url>https://maven.aliyun.com/repository/public/</url>-->
+<!--            <releases>-->
+<!--                <enabled>true</enabled>-->
+<!--            </releases>-->
+<!--        </repository>-->
+<!--    </repositories>-->
     <build>
         <plugins>
             <plugin>
