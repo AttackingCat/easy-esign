@@ -13,18 +13,7 @@
     <artifactId>easy-esign-core</artifactId>
     <version>1.0.1</version>
 
-    <properties>
-        <sdk.version>1.0.1</sdk.version>
-    </properties>
-
     <dependencies>
-        <dependency>
-            <groupId>io.github.attackingcat</groupId>
-            <artifactId>easy-esign-struct</artifactId>
-            <version>${sdk.version}</version>
-            <scope>compile</scope>
-        </dependency>
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
