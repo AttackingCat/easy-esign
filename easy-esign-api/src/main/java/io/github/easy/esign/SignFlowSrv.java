@@ -44,7 +44,7 @@ public class SignFlowSrv extends AbstractSrv {
     /**
      * 添加平台方自动盖章签署区
      */
-    public ESignResp<SignflowsSignfieldsPlatformSignResp> signfieldsPlatformSign(SignflowsSignfieldsPlatformSignReq request) {
+    public ESignResp<SignflowsSignfieldsPlatformSignResp> signFieldsPlatformSign(SignflowsSignfieldsPlatformSignReq request) {
         String path = "/v1/signflows/" + request.getSignFlowId() + "/signfields/platformSign";
         return execute().post(path, request, SignflowsSignfieldsPlatformSignResp.class);
     }
