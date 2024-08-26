@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SealInfoResp {
+public class OrgOwnSealResp {
     private String sealId;
 
     private String sealName;

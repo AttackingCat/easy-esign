@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SealInfosResp {
+public class OrgAuthSealsResp {
     private Integer total;
-    private List<SealInfoResp> seals;
+    private List<OrgAuthSealResp> seals;
 }

@@ -3,8 +3,8 @@ package io.github.easy.esign;
 import io.github.easy.esign.error.ESignException;
 import io.github.easy.esign.struct.ESignResp;
 import io.github.easy.esign.struct.constant.SealBizTypes;
-import io.github.easy.esign.struct.seal.resp.SealInfoResp;
-import io.github.easy.esign.struct.seal.resp.SealInfosResp;
+import io.github.easy.esign.struct.seal.resp.OrgAuthSealResp;
+import io.github.easy.esign.struct.seal.resp.OrgOwnSealResp;
 import io.github.easy.esign.utils.StrUtil;
 import lombok.Synchronized;
 
@@ -27,15 +27,15 @@ public class OrgSealSrv extends AbstractSrv {
     /**
      * <a href="https://open.esign.cn/doc/opendoc/seal3/picwop">查询指定印章详情（机构）</a>
      */
-    public ESignResp<SealInfoResp> orgSealInfo(String orgId, String sealId) {
+    public ESignResp<OrgOwnSealResp> orgSealInfo(String orgId, String sealId) {
         String path = String.format("/v3/seals/org-seal-info?orgId=%s&sealId=%s", orgId, sealId);
-        return execute().get(path, SealInfoResp.class);
+        return execute().get(path, OrgOwnSealResp.class);
     }
 
     /**
      * <a href="https://open.esign.cn/doc/opendoc/seal3/ups6h1">查询企业内部印章</a>
      */
-    public ESignResp<SealInfosResp> orgOwnSealList(String orgId, Integer pageNum, Integer pageSize, SealBizTypes sealBizType) {
+    public ESignResp<OrgOwnSealResp> orgOwnSealList(String orgId, Integer pageNum, Integer pageSize, SealBizTypes sealBizType) {
         if (StrUtil.isBlank(orgId)) {
             throw new ESignException("OrgId must be not null!");
         }
@@ -49,13 +49,13 @@ public class OrgSealSrv extends AbstractSrv {
         if (sealBizType != null) {
             path += "&sealBizType=" + sealBizType.name();
         }
-        return execute().get(path, SealInfosResp.class);
+        return execute().get(path, OrgOwnSealResp.class);
     }
 
     /**
      * <a href="https://open.esign.cn/doc/opendoc/seal3/czrua1">查询被外部企业授权印章</a>
      */
-    public ESignResp<SealInfosResp> orgAuthorizedSealList(String orgId, Integer pageNum, Integer pageSize, String authorizerOrgId) {
+    public ESignResp<OrgAuthSealResp> orgAuthorizedSealList(String orgId, Integer pageNum, Integer pageSize, String authorizerOrgId) {
         if (StrUtil.isBlank(orgId)) {
             throw new ESignException("OrgId must be not null!");
         }
@@ -69,6 +69,6 @@ public class OrgSealSrv extends AbstractSrv {
         if (StrUtil.isBlank(authorizerOrgId)) {
             path += "&authorizerOrgId=" + authorizerOrgId;
         }
-        return execute().get(path, SealInfosResp.class);
+        return execute().get(path, OrgAuthSealResp.class);
     }
 }
