@@ -1,12 +1,15 @@
 package io.github.easy.esign;
 
+import io.github.easy.esign.error.ESignException;
 import io.github.easy.esign.struct.ESignResp;
 import io.github.easy.esign.struct.doc.resp.FilesCreateByDocTemplateReq;
 import io.github.easy.esign.struct.doc.resp.FilesCreateByDocTemplateResp;
 import io.github.easy.esign.struct.sign.req.SignFlowCreateByFileReq;
+import io.github.easy.esign.struct.sign.req.SignFlowRevokeReq;
 import io.github.easy.esign.struct.sign.req.SignFlowSignUrlReq;
 import io.github.easy.esign.struct.sign.req.SignflowsSignfieldsPlatformSignReq;
 import io.github.easy.esign.struct.sign.resp.*;
+import io.github.easy.esign.utils.StrUtil;
 import io.github.easy.esign.utils.UrlUtil;
 import lombok.Synchronized;
 
@@ -70,7 +73,7 @@ public class SignFlowSrv extends AbstractSrv {
      */
     public ESignResp<String> start(String signFlowId) {
         String path = "/v3/sign-flow/" + signFlowId + "/start";
-        return execute().post(path, "", String.class);
+        return execute().put(path, "", String.class);
     }
 
     /**
@@ -79,5 +82,21 @@ public class SignFlowSrv extends AbstractSrv {
     public ESignResp<SignFlowFileDownloadUrlResp> fileDownloadUrl(String signFlowId) {
         String path = UrlUtil.fmtPathUrl("/v3/sign-flow/{}/file-download-url", signFlowId);
         return execute().get(path, SignFlowFileDownloadUrlResp.class);
+    }
+
+    /**
+     * 撤销签署流程
+     */
+    public ESignResp<String> revoke(SignFlowRevokeReq revokeReq) {
+        if (StrUtil.isBlank(revokeReq.getSignFlowId())) {
+            throw new ESignException("签约流程ID不能为空");
+        }
+        if (StrUtil.isNotBlank(revokeReq.getRevokeReason()) &&
+                revokeReq.getRevokeReason().getBytes().length > 400) {
+            throw new ESignException("撤销原因长度过长");
+        }
+        String path = "/v3/sign-flow/" + revokeReq.getSignFlowId() + "/revoke";
+        revokeReq.setSignFlowId(null);
+        return execute().put(path, revokeReq);
     }
 }

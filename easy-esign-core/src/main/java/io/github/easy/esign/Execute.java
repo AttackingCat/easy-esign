@@ -76,6 +76,16 @@ public final class Execute {
         return parseESignResp(text, clazz);
     }
 
+    public <T> ESignResp<T> put(String path, Object request, Class<T> clazz) {
+        String text = request(path, PUT, toJsonStr(request));
+        return parseESignResp(text, clazz);
+    }
+
+    public ESignResp<String> put(String path, Object request) {
+        String text = request(path, PUT, toJsonStr(request));
+        return parseESignResp(text, String.class);
+    }
+
     /*<T> ESignResp<T> post(String path) {
         String text = request(path, POST, null);
         return parseObject(text, ESignResp.class);
