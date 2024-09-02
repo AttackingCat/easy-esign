@@ -1,5 +1,6 @@
 package io.github.easy.esign;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import io.github.easy.esign.config.ESignConfig;
 import io.github.easy.esign.error.ESignException;
 import io.github.easy.esign.error.ErrorCodeDefine;
@@ -153,18 +154,19 @@ public final class Execute {
             throw new ESignException("response body is null");
         }
         String respStr = response.body().string();
-        String failCode = "";
-        String failMsg;
+        String failCode = null;
+        String failMsg = null;
+        JsonNode respJson = JsonUtil.parseString(respStr);
         if (!response.isSuccessful()) {
             failCode = String.valueOf(response.code());
-            failMsg = JsonUtil.parseString(respStr).path("message").asText();
+            failMsg = respJson.path("message").asText();
         } else {
-            ESignResp<?> eSignResp = Objects.requireNonNull(JsonUtil.parseObject(respStr, ESignResp.class));
-            if (eSignResp.getCode() != 0) {
-                failCode = String.valueOf(eSignResp.getCode());
-                failMsg = eSignResp.getMessage();
-            } else {
-                failMsg = "";
+            if (!StrUtil.isBlank(respStr)) {
+                String code = respJson.path("code").asText();
+                if (!"0".equals(code)) {
+                    failCode = code;
+                    failMsg = respJson.path("message").asText();
+                }
             }
         }
 
@@ -173,15 +175,20 @@ public final class Execute {
             logger.warn("Url: " + response.request().url().url());
             if (ESignManager.getAutoExplanation()) {
                 List<ErrorCodeDefine.Explanation> explanations = ErrorCodeDefine.searchCauseByCode(failCode);
+                String finalFailMsg = failMsg;
                 Optional<ErrorCodeDefine.Explanation> maybe = explanations
                         .stream()
-                        .filter(e -> Objects.equals(e.getDescription(), failMsg))
+                        .filter(e -> Objects.equals(e.getDescription(), finalFailMsg))
                         .findAny();
 
                 if (maybe.isPresent()) {
                     logger.warn("Error solution: " + maybe.get().getErrorCodeExplanation());
                 } else {
-                    explanations.forEach(e -> logger.warn("Error solution: " + e.getErrorCodeExplanation()));
+                    explanations.forEach(e -> {
+                        if (StrUtil.isNotBlank(e.getErrorCodeExplanation())) {
+                            logger.warn("Error solution: " + e.getErrorCodeExplanation());
+                        }
+                    });
                 }
             }
             logger.warn("Document helper: " + "https://open.esign.cn/doc/opendoc/pdf-sign3/nx6lc2cfnhk4qaxt");

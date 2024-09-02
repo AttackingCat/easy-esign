@@ -10,7 +10,6 @@ import io.github.easy.esign.struct.file.resp.FileUrlResp;
 import io.github.easy.esign.struct.file.resp.KeywordsResp;
 import io.github.easy.esign.utils.DigestUtil;
 import io.github.easy.esign.utils.JsonUtil;
-import lombok.Synchronized;
 import okhttp3.*;
 
 import java.io.File;
@@ -25,15 +24,15 @@ import static io.github.easy.esign.constant.ContentType.PDF_CT;
  */
 public class FileSrv extends AbstractSrv {
 
-    private static FileSrv instance;
-
-    @Synchronized
-    public static FileSrv getInstance() {
-        if (instance == null) {
-            instance = new FileSrv();
-        }
-        return instance;
-    }
+//    private static FileSrv instance;
+//
+//    @Synchronized
+//    public static FileSrv getInstance() {
+//        if (instance == null) {
+//            instance = new FileSrv();
+//        }
+//        return instance;
+//    }
 
 
     /**

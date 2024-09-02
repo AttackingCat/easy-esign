@@ -7,7 +7,6 @@ import io.github.easy.esign.struct.auth.resp.AuthorizedInfoResp;
 import io.github.easy.esign.struct.auth.resp.OrgAuthResp;
 import io.github.easy.esign.struct.auth.resp.OrgIdentityInfoResp;
 import io.github.easy.esign.utils.UrlUtil;
-import lombok.Synchronized;
 
 
 /**
@@ -15,15 +14,15 @@ import lombok.Synchronized;
  */
 public class OrgAuthSrv extends AbstractSrv {
 
-    private static OrgAuthSrv instance;
-
-    @Synchronized
-    public static OrgAuthSrv getInstance() {
-        if (instance == null) {
-            instance = new OrgAuthSrv();
-        }
-        return instance;
-    }
+//    private static OrgAuthSrv instance;
+//
+//    @Synchronized
+//    public static OrgAuthSrv getInstance() {
+//        if (instance == null) {
+//            instance = new OrgAuthSrv();
+//        }
+//        return instance;
+//    }
 
     /**
      * 获取机构认证&授权页面链接

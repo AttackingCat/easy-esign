@@ -43,32 +43,31 @@ public class ESignRegister {
 
     @Bean
     public DocTemplateSrv DocTemplateSrv() {
-        return DocTemplateSrv.getInstance();
+        return new DocTemplateSrv();
     }
 
     @Bean
     public FileSrv FileSrv() {
-        return FileSrv.getInstance();
+        return new FileSrv();
     }
 
     @Bean
     public OrgAuthSrv OrgAuthSrv() {
-        return OrgAuthSrv.getInstance();
+        return new OrgAuthSrv();
     }
 
     @Bean
     public OrgSealSrv OrgSealSrv() {
-        return OrgSealSrv.getInstance();
+        return new OrgSealSrv();
     }
 
     @Bean
     public PsnAuthSrv PsnAuthSrv() {
-        return PsnAuthSrv.getInstance();
+        return new PsnAuthSrv();
     }
 
     @Bean
     public SignFlowSrv SignFlowSrv() {
-        return SignFlowSrv.getInstance();
+        return new SignFlowSrv();
     }
-
 }

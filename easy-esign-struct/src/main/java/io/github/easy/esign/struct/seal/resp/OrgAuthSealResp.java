@@ -15,7 +15,7 @@ public class OrgAuthSealResp {
 
     private String sealBizType;
 
-    private int sealStyle;
+    private Long sealStyle;
 
     private String sealBizTypeDescription;
 
@@ -25,13 +25,13 @@ public class OrgAuthSealResp {
 
     private String sealAuthBizId;
 
-    private long effectiveTime;
+    private Long effectiveTime;
 
-    private long expireTime;
+    private Long expireTime;
 
     private String sealImageDownloadUrl;
 
-    private int sealHeight;
+    private Integer sealHeight;
 
-    private int sealWidth;
+    private Integer sealWidth;
 }

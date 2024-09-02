@@ -7,7 +7,6 @@ import io.github.easy.esign.struct.auth.resp.AuthorizedInfoResp;
 import io.github.easy.esign.struct.auth.resp.PsnAuthResp;
 import io.github.easy.esign.struct.auth.resp.PsnIdentityInfoResp;
 import io.github.easy.esign.utils.UrlUtil;
-import lombok.Synchronized;
 
 
 /**
@@ -15,15 +14,15 @@ import lombok.Synchronized;
  */
 public class PsnAuthSrv extends AbstractSrv {
 
-    private static PsnAuthSrv instance;
-
-    @Synchronized
-    public static PsnAuthSrv getInstance() {
-        if (instance == null) {
-            instance = new PsnAuthSrv();
-        }
-        return instance;
-    }
+//    private static PsnAuthSrv instance;
+//
+//    @Synchronized
+//    public static PsnAuthSrv getInstance() {
+//        if (instance == null) {
+//            instance = new PsnAuthSrv();
+//        }
+//        return instance;
+//    }
 
     /**
      * <a href="https://open.esign.cn/doc/opendoc/auth3/rx8igf">...</a>

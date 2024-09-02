@@ -5,22 +5,21 @@ import io.github.easy.esign.struct.doc.req.DocTemplateEditUrlReq;
 import io.github.easy.esign.struct.doc.resp.DocTemplateEditUrlResp;
 import io.github.easy.esign.struct.doc.resp.DocTemplateResp;
 import io.github.easy.esign.struct.doc.resp.DocTemplatesResp;
-import lombok.Synchronized;
 
 /**
  * 文件&模板
  */
 public class DocTemplateSrv extends AbstractSrv {
 
-    private static DocTemplateSrv instance;
-
-    @Synchronized
-    public static DocTemplateSrv getInstance() {
-        if (instance == null) {
-            instance = new DocTemplateSrv();
-        }
-        return instance;
-    }
+//    private static DocTemplateSrv instance;
+//
+//    @Synchronized
+//    public static DocTemplateSrv getInstance() {
+//        if (instance == null) {
+//            instance = new DocTemplateSrv();
+//        }
+//        return instance;
+//    }
 
     /**
      * 查询合同模板中控件详情

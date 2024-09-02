@@ -15,4 +15,5 @@ public class Demo01 {
         ESignResp<OrgIdentityInfoResp> resp = signOrgAuthSrv.identityInfo(orgIdentityInfoReq);
         System.out.println(resp);
     }
+
 }

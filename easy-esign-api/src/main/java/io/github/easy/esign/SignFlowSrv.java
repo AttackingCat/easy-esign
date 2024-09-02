@@ -10,23 +10,21 @@ import io.github.easy.esign.struct.sign.req.SignFlowSignUrlReq;
 import io.github.easy.esign.struct.sign.req.SignflowsSignfieldsPlatformSignReq;
 import io.github.easy.esign.struct.sign.resp.*;
 import io.github.easy.esign.utils.StrUtil;
-import io.github.easy.esign.utils.UrlUtil;
-import lombok.Synchronized;
 
 /**
  * 签署
  */
 public class SignFlowSrv extends AbstractSrv {
 
-    private static SignFlowSrv instance;
-
-    @Synchronized
-    public static SignFlowSrv getInstance() {
-        if (instance == null) {
-            instance = new SignFlowSrv();
-        }
-        return instance;
-    }
+//    private static SignFlowSrv instance;
+//
+//    @Synchronized
+//    public static SignFlowSrv getInstance() {
+//        if (instance == null) {
+//            instance = new SignFlowSrv();
+//        }
+//        return instance;
+//    }
 
     /**
      * 填写模板生成文件
@@ -73,14 +71,14 @@ public class SignFlowSrv extends AbstractSrv {
      */
     public ESignResp<String> start(String signFlowId) {
         String path = "/v3/sign-flow/" + signFlowId + "/start";
-        return execute().put(path, "", String.class);
+        return execute().post(path, "", String.class);
     }
 
     /**
      * 获取合同链接
      */
     public ESignResp<SignFlowFileDownloadUrlResp> fileDownloadUrl(String signFlowId) {
-        String path = UrlUtil.fmtPathUrl("/v3/sign-flow/{}/file-download-url", signFlowId);
+        String path = "/v3/sign-flow/" + signFlowId + "/file-download-url";
         return execute().get(path, SignFlowFileDownloadUrlResp.class);
     }
 
@@ -97,6 +95,6 @@ public class SignFlowSrv extends AbstractSrv {
         }
         String path = "/v3/sign-flow/" + revokeReq.getSignFlowId() + "/revoke";
         revokeReq.setSignFlowId(null);
-        return execute().put(path, revokeReq);
+        return execute().post(path, "", String.class);
     }
 }

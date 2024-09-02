@@ -8,9 +8,7 @@ import io.github.easy.esign.struct.common.*;
 import java.util.List;
 
 /**
- * https://open.esign.cn/doc/opendoc/pdf-sign3/su5g42
- * <p>
- * 基于文件发起签署
+ * <a href="https://open.esign.cn/doc/opendoc/pdf-sign3/su5g42">基于文件发起签署</a>
  */
 @Data
 @NoArgsConstructor
