@@ -192,7 +192,6 @@ public final class Execute {
                 }
             }
             logger.warn("Document helper: " + "https://open.esign.cn/doc/opendoc/pdf-sign3/nx6lc2cfnhk4qaxt");
-            throw new ESignException(respStr);
         }
 
         return response
