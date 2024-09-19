@@ -75,7 +75,7 @@ public class FileSrv extends AbstractSrv {
      * 查询文件上传状态
      */
     public ESignResp<FileResp> get(String fileId) {
-        String path = "/v3/file/" + fileId;
+        String path = "/v3/files/" + fileId;
         return execute().get(path, FileResp.class);
     }
 
