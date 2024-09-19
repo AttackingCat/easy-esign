@@ -111,9 +111,19 @@ ESignResp<OrgIdentityInfoResp> resp = orgAuthSrv.identityInfo(request);
 ESignManager.clearExecute();
 ```
 
-### 依赖引入（待发布）
+### 依赖引入（beta）
+由于个人精力有限，未覆盖到所有接口的开发和测试。如有需求，请fork后自行开发，欢迎pr，感谢。
 
->
->
+gradle: 
+> implementation 'io.github.attackingcat:easy-esign-starter:1.0.9'
+> 
+maven:
+```xml
+<dependency>
+    <groupId>io.github.attackingcat</groupId>
+    <artifactId>easy-esign-starter</artifactId>
+    <version>1.0.9</version>
+</dependency>
+```
 
 #### 鸣谢，项目灵感来源于 https://github.com/psoho/fastesign
