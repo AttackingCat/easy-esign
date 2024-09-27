@@ -4,10 +4,7 @@ import io.github.easy.esign.error.ESignException;
 import io.github.easy.esign.struct.ESignResp;
 import io.github.easy.esign.struct.doc.resp.FilesCreateByDocTemplateReq;
 import io.github.easy.esign.struct.doc.resp.FilesCreateByDocTemplateResp;
-import io.github.easy.esign.struct.sign.req.SignFlowCreateByFileReq;
-import io.github.easy.esign.struct.sign.req.SignFlowRevokeReq;
-import io.github.easy.esign.struct.sign.req.SignFlowSignUrlReq;
-import io.github.easy.esign.struct.sign.req.SignflowsSignfieldsPlatformSignReq;
+import io.github.easy.esign.struct.sign.req.*;
 import io.github.easy.esign.struct.sign.resp.*;
 import io.github.easy.esign.utils.StrUtil;
 
@@ -40,6 +37,14 @@ public class SignFlowSrv extends AbstractSrv {
     public ESignResp<SignFlowCreateByFileResp> createByFile(SignFlowCreateByFileReq request) {
         String path = "/v3/sign-flow/create-by-file";
         return execute().post(path, request, SignFlowCreateByFileResp.class);
+    }
+
+    /**
+     * 通过流程模板创建合同拟定和签署流程
+     */
+    public ESignResp<SignFlowCreateBySignTemplateResp> createBySignTemplate(SignFlowCreateBySignTemplateReq request) {
+        String path = "/v3/sign-flow/create-by-sign-template";
+        return execute().post(path, request, SignFlowCreateBySignTemplateResp.class);
     }
 
     /**
