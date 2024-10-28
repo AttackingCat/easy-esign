@@ -70,4 +70,9 @@ public class ESignRegister {
     public SignFlowSrv SignFlowSrv() {
         return new SignFlowSrv();
     }
+
+    @Bean
+    public AccountManagementSrv AccountManagementSrv() {
+        return new AccountManagementSrv();
+    }
 }
