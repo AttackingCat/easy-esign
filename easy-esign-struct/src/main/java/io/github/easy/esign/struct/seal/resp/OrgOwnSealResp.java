@@ -12,7 +12,7 @@ public class OrgOwnSealResp {
 
     private String sealName;
 
-    private int sealCreateTime;
+    private Long sealCreateTime;
 
     private boolean defaultSealFlag;
 

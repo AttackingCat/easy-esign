@@ -4,8 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <name>easy-esign-starter</name>
+
     <artifactId>easy-esign-starter</artifactId>
-    <version>1.0.13</version>
+    <version>1.0.14</version>
     <packaging>jar</packaging>
 
     <parent>
@@ -40,7 +42,7 @@
         <dependency>
             <groupId>io.github.attackingcat</groupId>
             <artifactId>easy-esign-api</artifactId>
-            <version>1.0.13</version>
+            <version>1.0.11</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

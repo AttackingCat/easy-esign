@@ -115,14 +115,14 @@ ESignManager.clearExecute();
 由于个人精力有限，未覆盖到所有接口的开发和测试。如有需求，请fork后自行开发，欢迎pr，感谢。
 
 gradle: 
-> implementation 'io.github.attackingcat:easy-esign-starter:1.0.13'
+> implementation 'io.github.attackingcat:easy-esign-starter:1.0.14'
 > 
 maven:
 ```xml
 <dependency>
     <groupId>io.github.attackingcat</groupId>
     <artifactId>easy-esign-starter</artifactId>
-    <version>1.0.13</version>
+    <version>1.0.14</version>
 </dependency>
 ```
 
