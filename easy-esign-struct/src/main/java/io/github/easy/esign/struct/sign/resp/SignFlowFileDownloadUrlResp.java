@@ -40,7 +40,7 @@ public class SignFlowFileDownloadUrlResp {
         //文件ID
         String fileId;
         //文件名称
-        String filename;
+        String fileName;
         //文件下载链接（有效期为60分钟，过期后可以重新调用接口获取新的下载地址）
         String downloadUrl;
     }
