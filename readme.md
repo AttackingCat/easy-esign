@@ -20,21 +20,6 @@ https://open.esign.cn/doc/opendoc/apiv3-guide/tfb6gn
 >
 > https://open.esign.cn/doc/opendoc/apiv3-guide/al7kcc
 
-> 错误码
->
->+ 实名认证和授权服务API 3.0
->- https://open.esign.cn/doc/opendoc/codemsg-v3/agi7xuv4yrw1i8f3
->+ 文件和模板服务API V3
->- https://open.esign.cn/doc/opendoc/codemsg-v3/px5yvgqf9glbs7o6
->+ 合同签署服务API V3
->- https://open.esign.cn/doc/opendoc/codemsg-v3/gts2lir7t1hwyndy
->+ 流程模板服务API V3
->- https://open.esign.cn/doc/opendoc/codemsg-v3/uir8r6eorxqxhb5n
->+ 印章服务API 3.0
->- https://open.esign.cn/doc/opendoc/codemsg-v3/gqgb0gwznb2su405
->+ 企业机构成员服务API 3.0
->- https://open.esign.cn/doc/opendoc/codemsg-v3/ckh528ox9a1k9u07
-
 ### 使用方式
 
 #### 配置
@@ -57,6 +42,9 @@ esign-v3:
       app-id: #e签宝的appId
       secret: #e钱包的secret
       sandbox: true #沙箱模式
+      proxy:
+        host-name: 127.0.0.1 #代理地址，优先使用
+        port: 8080
     - name: app2
       app-id: #e签宝的appId
       secret: #e钱包的secret
@@ -66,7 +54,7 @@ esign-v3:
 - 自定义配置，项目初始化时调用该方法自行注入
 
 ```java
-ESignManager.init(new ESignConfigs());
+ESignManager.loadConfigs(new ESignConfigs());
 ```
 #### 调用
 - springboot项目
@@ -101,7 +89,7 @@ ESignResp<OrgIdentityInfoResp> orgIdentityInfoResponseESignResp = signOrgAuthSrv
 @SwitchESignApp("app1")
 ```
 
-- 编程式，不建议使用
+- 编程式
 
 ```java
 ESignOrgAuthSrv orgAuthSrv = ESignOrgAuthSrv.getInstance();
@@ -115,14 +103,14 @@ ESignManager.clearExecute();
 由于个人精力有限，未覆盖到所有接口的开发和测试。如有需求，请fork后自行开发，欢迎pr，感谢。
 
 gradle: 
-> implementation 'io.github.attackingcat:easy-esign-starter:1.0.14'
+> implementation 'io.github.attackingcat:easy-esign-starter:1.1.1'
 > 
 maven:
 ```xml
 <dependency>
     <groupId>io.github.attackingcat</groupId>
     <artifactId>easy-esign-starter</artifactId>
-    <version>1.0.14</version>
+    <version>1.1.1</version>
 </dependency>
 ```
 
