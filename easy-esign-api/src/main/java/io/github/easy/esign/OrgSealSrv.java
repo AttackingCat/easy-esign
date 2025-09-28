@@ -1,5 +1,6 @@
 package io.github.easy.esign;
 
+import io.github.easy.esign.core.AbstractSrv;
 import io.github.easy.esign.error.ESignException;
 import io.github.easy.esign.struct.ESignResp;
 import io.github.easy.esign.struct.seal.req.OrgAuthorizedSealReq;
@@ -15,16 +16,6 @@ import io.github.easy.esign.utils.UrlUtil;
  * 授权认证
  */
 public class OrgSealSrv extends AbstractSrv {
-
-//    private static OrgSealSrv instance;
-//
-//    @Synchronized
-//    public static OrgSealSrv getInstance() {
-//        if (instance == null) {
-//            instance = new OrgSealSrv();
-//        }
-//        return instance;
-//    }
 
     /**
      * <a href="https://open.esign.cn/doc/opendoc/seal3/picwop">查询指定印章详情（机构）</a>

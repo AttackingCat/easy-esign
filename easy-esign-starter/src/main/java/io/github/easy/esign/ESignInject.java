@@ -1,9 +1,13 @@
 package io.github.easy.esign;
 
 import io.github.easy.esign.config.ESignConfigs;
+import io.github.easy.esign.core.ESignManager;
 
 public class ESignInject {
     public ESignInject(ESignConfigs cfg) {
-        ESignManager.init(cfg);
+        if (cfg == null) {
+            throw new IllegalArgumentException("ESignConfigs cannot be null");
+        }
+        ESignManager.loadConfigs(cfg);
     }
 }

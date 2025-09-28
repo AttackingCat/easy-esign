@@ -1,0 +1,86 @@
+package io.github.easy.esign.log.impl;
+
+import io.github.easy.esign.log.Logger;
+import io.github.easy.esign.utils.StrUtil;
+
+import java.lang.reflect.Method;
+
+public class Log4jLogger implements Logger {
+
+    private final Object logger;
+    private final Method debugMethod, infoMethod, warnMethod, errorMethod;
+
+    private Log4jLogger(Object logger, Method debugMethod, Method infoMethod, Method warnMethod, Method errorMethod) {
+        this.logger = logger;
+        this.debugMethod = debugMethod;
+        this.infoMethod = infoMethod;
+        this.warnMethod = warnMethod;
+        this.errorMethod = errorMethod;
+    }
+
+    public static Logger create(Class<?> clazz) {
+        try {
+            Class<?> log4jClass = Class.forName("org.apache.log4j.Logger");
+            Object log4jLogger = log4jClass.getMethod("getLogger", Class.class).invoke(null, clazz);
+            Method debugMethod = log4jClass.getMethod("debug", Object.class);
+            Method infoMethod = log4jClass.getMethod("info", Object.class);
+            Method warnMethod = log4jClass.getMethod("warn", Object.class);
+            Method errorMethod = log4jClass.getMethod("error", Object.class);
+            return new Log4jLogger(log4jLogger, debugMethod, infoMethod, warnMethod, errorMethod);
+        } catch (Throwable e) {
+            return null;
+        }
+    }
+
+    @Override
+    public void debug(String message) {
+        try {
+            debugMethod.invoke(logger, message);
+        } catch (Throwable ignored) {
+        }
+    }
+
+    @Override
+    public void info(String message) {
+        try {
+            infoMethod.invoke(logger, message);
+        } catch (Throwable ignored) {
+        }
+    }
+
+    @Override
+    public void warn(String message) {
+        try {
+            warnMethod.invoke(logger, message);
+        } catch (Throwable ignored) {
+        }
+    }
+
+    @Override
+    public void error(String message) {
+        try {
+            errorMethod.invoke(logger, message);
+        } catch (Throwable ignored) {
+        }
+    }
+
+    @Override
+    public void debug(String format, Object... arg) {
+        debug(StrUtil.format(format, arg));
+    }
+
+    @Override
+    public void info(String format, Object... arg) {
+        info(StrUtil.format(format, arg));
+    }
+
+    @Override
+    public void warn(String format, Object... arg) {
+        warn(StrUtil.format(format, arg));
+    }
+
+    @Override
+    public void error(String format, Object... arg) {
+        error(StrUtil.format(format, arg));
+    }
+}

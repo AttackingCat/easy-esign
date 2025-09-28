@@ -1,5 +1,6 @@
 package io.github.easy.esign;
 
+import io.github.easy.esign.core.AbstractSrv;
 import io.github.easy.esign.error.ESignException;
 import io.github.easy.esign.struct.ESignResp;
 import io.github.easy.esign.struct.doc.resp.FilesCreateByDocTemplateReq;
@@ -12,16 +13,6 @@ import io.github.easy.esign.utils.StrUtil;
  * 签署
  */
 public class SignFlowSrv extends AbstractSrv {
-
-//    private static SignFlowSrv instance;
-//
-//    @Synchronized
-//    public static SignFlowSrv getInstance() {
-//        if (instance == null) {
-//            instance = new SignFlowSrv();
-//        }
-//        return instance;
-//    }
 
     /**
      * 填写模板生成文件

@@ -11,7 +11,7 @@ public class Demo01 {
         OrgIdentityInfoReq orgIdentityInfoReq = new OrgIdentityInfoReq();
         orgIdentityInfoReq.setOrgIDCardNum("910000622326970013");
         orgIdentityInfoReq.setOrgIDCardType(OrgIDCardType.CRED_ORG_USCC);
-        OrgAuthSrv signOrgAuthSrv = OrgAuthSrv.getInstance();
+        OrgAuthSrv signOrgAuthSrv = new OrgAuthSrv();
         ESignResp<OrgIdentityInfoResp> resp = signOrgAuthSrv.identityInfo(orgIdentityInfoReq);
         System.out.println(resp);
     }
