@@ -1,4 +1,4 @@
-package io.github.easy.esign;
+package io.github.easy.esign.core;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import io.github.easy.esign.config.ESignConfig;
@@ -63,9 +63,9 @@ public final class Execute {
             httpClient = new OkHttpClient().newBuilder()
                     .proxy(proxy)
                     .addInterceptor(chain -> {
-                        logger.debug("method: %s", chain.request().method());
-                        logger.debug("url: %s", chain.request().url().url());
-                        logger.debug("headers: \n%s", chain.request().headers());
+                        logger.debug("method: {}", chain.request().method());
+                        logger.debug("url: {}", chain.request().url().url());
+                        logger.debug("headers: \n{}", chain.request().headers());
                         return handlerError(chain.proceed(chain.request()));
                     })
                     .build();

@@ -1,6 +1,5 @@
 package io.github.easy.esign.struct.sign.req;
 
-import io.github.easy.esign.struct.sign.resp.SignFlowDetailResp;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

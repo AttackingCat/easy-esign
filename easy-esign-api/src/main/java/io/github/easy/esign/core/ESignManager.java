@@ -1,4 +1,4 @@
-package io.github.easy.esign;
+package io.github.easy.esign.core;
 
 import io.github.easy.esign.config.ESignConfig;
 import io.github.easy.esign.config.ESignConfigs;
@@ -36,7 +36,7 @@ public class ESignManager {
         if (ESignManager.configs != null) {
             throw new ESignException("ESign Configuration file repeat, if using Spring framework configuration, please delete esign-v3.properties!");
         }
-        logger.info("Log use: %s", logger.getClass());
+        logger.info("Log use: {}", logger.getClass());
         if (configs == null) {
             throw new ESignException("Configuration not found,please check your config file!");
         }
@@ -49,26 +49,26 @@ public class ESignManager {
         for (ESignConfig cfg : appConfigs) {
             // Check
             if (StrUtil.isBlank(cfg.getName()) && appConfigs.size() == 1) {
-                logger.info("That configuration must hava a name, appId=%s", cfg.getAppId());
+                logger.info("That configuration must hava a name, appId={}", cfg.getAppId());
             }
             if (!configCheck(cfg)) {
-                String msg = String.format("Configuration name: %s init fail! Please cheek your appId and secret", cfg.getName());
+                String msg = StrUtil.format("Configuration name: {} init fail! Please cheek your appId and secret", cfg.getName());
                 throw new ESignException(msg);
             }
             // Proxy
             if (cfg.getProxy() != null) {
-                logger.info("ESign proxy: %s", cfg.getProxy().toString());
+                logger.info("ESign proxy: {}", cfg.getProxy().toString());
             } else if (configs.getProxy() != null) {
                 cfg.setProxy(configs.getProxy());
-                logger.info("ESign proxy: %s", configs.getProxy().toString());
+                logger.info("ESign proxy: {}", configs.getProxy().toString());
             }
 
             // Init and Manager
             executeMap.put(cfg.getName(), initExecute(cfg));
 
-            logger.info("ESign appId: %s", cfg.getAppId());
-            logger.info("ESign sandBox: %s", cfg.getSandbox());
-            logger.info("ESign app name: {%s} init success! ", cfg.getName());
+            logger.info("ESign appId: {}", cfg.getAppId());
+            logger.info("ESign sandBox: {}", cfg.getSandbox());
+            logger.info("ESign app name: {{}} init success! ", cfg.getName());
         }
 
         if (appConfigs.size() == 1) {
@@ -79,7 +79,7 @@ public class ESignManager {
             configs.setDefaultConfigName(name);
         }
 
-        logger.info("Default Configuration name: %s", configs.getDefaultConfigName());
+        logger.info("Default Configuration name: {}", configs.getDefaultConfigName());
 
         if (configs.getPrintBanner()) {
             BannerUtil.printEasyESign();

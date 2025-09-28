@@ -7,13 +7,12 @@
     <name>easy-esign-starter</name>
 
     <artifactId>easy-esign-starter</artifactId>
-    <version>1.0.14</version>
     <packaging>jar</packaging>
 
     <parent>
         <groupId>io.github.attackingcat</groupId>
         <artifactId>easy-esign</artifactId>
-        <version>1.0.1</version>
+        <version>1.1.1-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -42,7 +41,7 @@
         <dependency>
             <groupId>io.github.attackingcat</groupId>
             <artifactId>easy-esign-api</artifactId>
-            <version>1.0.15</version>
+            <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

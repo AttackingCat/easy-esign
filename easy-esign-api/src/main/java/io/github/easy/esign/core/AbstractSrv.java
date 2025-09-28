@@ -1,10 +1,10 @@
-package io.github.easy.esign;
+package io.github.easy.esign.core;
 
 import io.github.easy.esign.error.ESignException;
 import io.github.easy.esign.log.Logger;
 import io.github.easy.esign.log.LoggerFactory;
 
-import static io.github.easy.esign.ESignManager.defaultExecute;
+import static io.github.easy.esign.core.ESignManager.defaultExecute;
 
 public abstract class AbstractSrv {
     private final static Logger logger = LoggerFactory.getLogger(AbstractSrv.class);

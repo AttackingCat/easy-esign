@@ -1,1 +1,2 @@
-io.github.easy.esign.ESignRegister
+io.github.easy.esign.autoconfigure.ESignAutoConfiguration
+io.github.easy.esign.autoconfigure.ESignAppNameAdapterConfig

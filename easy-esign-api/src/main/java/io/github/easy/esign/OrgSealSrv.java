@@ -1,5 +1,6 @@
 package io.github.easy.esign;
 
+import io.github.easy.esign.core.AbstractSrv;
 import io.github.easy.esign.error.ESignException;
 import io.github.easy.esign.struct.ESignResp;
 import io.github.easy.esign.struct.seal.req.OrgAuthorizedSealReq;
