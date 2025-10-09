@@ -11,7 +11,7 @@ public class ESignConfigs {
      * 默认配置名称
      * 非必选，默认default，只有一个app的情况下不用该参数，或者自行实现 {@link io.github.easy.esign.adapter.ESignAppNameAdapter}
      */
-    String defaultConfigName = "default";
+    String defaultConfigName;
 
     /**
      * 打印banner

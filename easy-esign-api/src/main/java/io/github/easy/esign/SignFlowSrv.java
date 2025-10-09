@@ -86,7 +86,7 @@ public class SignFlowSrv extends AbstractSrv {
             throw new ESignException("签约流程ID不能为空");
         }
         if (StrUtil.isNotBlank(revokeReq.getRevokeReason()) &&
-                revokeReq.getRevokeReason().getBytes().length > 400) {
+                revokeReq.getRevokeReason().length() >= 50) {
             throw new ESignException("撤销原因长度过长");
         }
         String path = "/v3/sign-flow/" + revokeReq.getSignFlowId() + "/revoke";
