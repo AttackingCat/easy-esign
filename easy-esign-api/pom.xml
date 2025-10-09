@@ -6,14 +6,16 @@
 
     <name>easy-esign-api</name>
 
-    <artifactId>easy-esign-api</artifactId>
-    <packaging>jar</packaging>
-
     <parent>
         <groupId>io.github.attackingcat</groupId>
         <artifactId>easy-esign</artifactId>
         <version>1.1.1</version>
     </parent>
+
+    <artifactId>easy-esign-api</artifactId>
+    <packaging>jar</packaging>
+    <groupId>io.github.attackingcat</groupId>
+    <version>1.1.1</version>
 
     <dependencies>
         <dependency>
@@ -41,4 +43,25 @@
             <version>${slf4j.version}</version>
         </dependency>
     </dependencies>
+
+    <description>A esign-v3 api sdk for deployment to the Central Repository via OSSRH</description>
+    <url>https://github.com/AttackingCat/easy-esign</url>
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+    <scm>
+        <connection>/</connection>
+        <developerConnection>/</developerConnection>
+        <url>https://github.com/AttackingCat/easy-esign</url>
+    </scm>
+    <developers>
+        <developer>
+            <name>AttackingCat</name>
+            <url>https://github.com/AttackingCat/easy-esign</url>
+            <timezone>+8</timezone>
+        </developer>
+    </developers>
 </project>

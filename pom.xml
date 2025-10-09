@@ -13,11 +13,6 @@
     <artifactId>easy-esign</artifactId>
     <version>1.1.1</version>
 
-    <modules>
-        <module>easy-esign-api</module>
-        <module>easy-esign-starter</module>
-    </modules>
-
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
