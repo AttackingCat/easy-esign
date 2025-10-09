@@ -20,24 +20,10 @@ https://open.esign.cn/doc/opendoc/apiv3-guide/tfb6gn
 >
 > https://open.esign.cn/doc/opendoc/apiv3-guide/al7kcc
 
-> 错误码
->
->+ 实名认证和授权服务API 3.0
->- https://open.esign.cn/doc/opendoc/codemsg-v3/agi7xuv4yrw1i8f3
->+ 文件和模板服务API V3
->- https://open.esign.cn/doc/opendoc/codemsg-v3/px5yvgqf9glbs7o6
->+ 合同签署服务API V3
->- https://open.esign.cn/doc/opendoc/codemsg-v3/gts2lir7t1hwyndy
->+ 流程模板服务API V3
->- https://open.esign.cn/doc/opendoc/codemsg-v3/uir8r6eorxqxhb5n
->+ 印章服务API 3.0
->- https://open.esign.cn/doc/opendoc/codemsg-v3/gqgb0gwznb2su405
->+ 企业机构成员服务API 3.0
->- https://open.esign.cn/doc/opendoc/codemsg-v3/ckh528ox9a1k9u07
-
 ### 使用方式
 
 #### 配置
+
 - 配置文件，springboot中可以自动加载的情况
 
 ```yaml
@@ -46,29 +32,21 @@ logging:
     io.github.easy.esign: info #日志级别，推荐info，打印参数地址和返回值
 
 esign-v3:
-  print-banner: true #打印banner图
-  default-config-name: app1
-  auto-explanation: true #默认开启，是否自动解释错误，要求可以访问该域名 tapi.esign.cn
-  proxy:
-    host-name: 127.0.0.1 #代理地址
-    port: 8080
   configs:
     - name: app1
       app-id: #e签宝的appId
-      secret: #e钱包的secret
+      secret: #e签宝的secret
       sandbox: true #沙箱模式
-    - name: app2
-      app-id: #e签宝的appId
-      secret: #e钱包的secret
-      sandbox: false #沙箱模式
 ```
 
 - 自定义配置，项目初始化时调用该方法自行注入
 
 ```java
-ESignManager.init(new ESignConfigs());
+ESignManager.loadConfigs(new ESignConfigs());
 ```
+
 #### 调用
+
 - springboot项目
 
 ```java
@@ -90,6 +68,7 @@ ESignResp<OrgIdentityInfoResp> orgIdentityInfoResponseESignResp = signOrgAuthSrv
 ```
 
 #### 多APP切换
+
 - 注解式，spring环境
 
 ```java
@@ -101,29 +80,45 @@ ESignResp<OrgIdentityInfoResp> orgIdentityInfoResponseESignResp = signOrgAuthSrv
 @SwitchESignApp("app1")
 ```
 
-- 编程式，不建议使用
+- 编程式
 
 ```java
 ESignOrgAuthSrv orgAuthSrv = ESignOrgAuthSrv.getInstance();
-ESignManager.switchExecute("app1");
+ESignManager.
+
+switchExecute("app1");
+
 //业务逻辑：
 ESignResp<OrgIdentityInfoResp> resp = orgAuthSrv.identityInfo(request);
-ESignManager.clearExecute();
+ESignManager.
+
+clearExecute();
 ```
 
 ### 依赖引入（beta）
+
 由于个人精力有限，未覆盖到所有接口的开发和测试。如有需求，请fork后自行开发，欢迎pr，感谢。
 
-gradle: 
-> implementation 'io.github.attackingcat:easy-esign-starter:1.0.14'
-> 
+gradle:
+> implementation 'io.github.attackingcat:easy-esign-starter:1.1.1'
+>
 maven:
+
 ```xml
+
 <dependency>
     <groupId>io.github.attackingcat</groupId>
     <artifactId>easy-esign-starter</artifactId>
-    <version>1.0.14</version>
+    <version>1.1.1</version>
 </dependency>
 ```
+
+##### 更新内容，版本1.1.1
+
+1. 包结构修改，更快发布，版本统一。
+2. 日志支持log4j1.x，面向阿里云日志仓库（上古版本）。
+3. 允许客户端配置覆盖，进行动态更新配置，使用动态配置更新的可以自定加载配置，线程安全。
+4. 错误码解释器引入了缓存和查询2秒超时。
+5. 全局和应用级别的超时时间、代理配置。
 
 #### 鸣谢，项目灵感来源于 https://github.com/psoho/fastesign

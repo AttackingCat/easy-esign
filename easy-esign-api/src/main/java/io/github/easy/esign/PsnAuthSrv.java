@@ -15,21 +15,8 @@ import io.github.easy.esign.utils.UrlUtil;
  */
 public class PsnAuthSrv extends AbstractSrv {
 
-//    private static PsnAuthSrv instance;
-//
-//    @Synchronized
-//    public static PsnAuthSrv getInstance() {
-//        if (instance == null) {
-//            instance = new PsnAuthSrv();
-//        }
-//        return instance;
-//    }
-
     /**
-     * <a href="https://open.esign.cn/doc/opendoc/auth3/rx8igf">...</a>
-     * <p>
-     * 获取个人认证&授权页面链接
-     *
+     * <a href="https://open.esign.cn/doc/opendoc/auth3/rx8igf">获取个人认证&授权页面链接</a>
      */
     public ESignResp<PsnAuthResp> authUrl(PsnAuthReq request) {
         String path = "/v3/psn-auth-url";
@@ -37,10 +24,7 @@ public class PsnAuthSrv extends AbstractSrv {
     }
 
     /**
-     * <a href="https://open.esign.cn/doc/opendoc/auth3/vssvtu">...</a>
-     * <p>
-     * 查询个人认证信息
-     *
+     * <a href="https://open.esign.cn/doc/opendoc/auth3/vssvtu">查询个人认证信息</a>
      */
     public ESignResp<PsnIdentityInfoResp> identityInfo(PsnIdentityInfoReq request) {
         String path = "/v3/persons/identity-info" + UrlUtil.toParam(request);
@@ -49,10 +33,7 @@ public class PsnAuthSrv extends AbstractSrv {
 
 
     /**
-     * <a href="https://open.esign.cn/doc/opendoc/auth3/nurtvw">...</a>
-     * <p>
-     * 查询个人用户授权详情
-     *
+     * <a href="https://open.esign.cn/doc/opendoc/auth3/nurtvw">查询个人用户授权详情</a>
      */
     public ESignResp<AuthorizedInfoResp> authorizedInfo(String psnId) {
         String path = "/v3/persons/" + psnId + "authorized-info";

@@ -21,6 +21,7 @@ import java.net.Proxy;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 import static io.github.easy.esign.constant.ContentType.JSON_CT;
 import static io.github.easy.esign.constant.Domain.endpoint;
@@ -33,12 +34,14 @@ import static io.github.easy.esign.utils.JsonUtil.toJsonStr;
 
 public final class Execute {
 
-    private ESignConfig config;
+    private final ESignConfig config;
 
     @Getter
     private final String appName;
 
     private static OkHttpClient httpClient;
+
+    private final long connectTimeout;
 
     private final static Logger logger = LoggerFactory.getLogger(Execute.class);
 
@@ -48,6 +51,7 @@ public final class Execute {
         }
         this.config = config;
         this.appName = config.getName();
+        this.connectTimeout = config.getConnectTimeout();
         init();
     }
 
@@ -68,6 +72,7 @@ public final class Execute {
                         logger.debug("headers: \n{}", chain.request().headers());
                         return handlerError(chain.proceed(chain.request()));
                     })
+                    .connectTimeout(connectTimeout, TimeUnit.MILLISECONDS)
                     .build();
         }
     }
@@ -86,11 +91,6 @@ public final class Execute {
         String text = request(path, PUT, toJsonStr(request));
         return parseESignResp(text, String.class);
     }
-
-    /*<T> ESignResp<T> post(String path) {
-        String text = request(path, POST, null);
-        return parseObject(text, ESignResp.class);
-    }*/
 
     public <T> ESignResp<T> get(String path, Class<T> clazz) {
         String text = request(path, GET, "");
@@ -206,8 +206,33 @@ public final class Execute {
         return httpClient;
     }
 
+    @Synchronized
+    @SuppressWarnings("resource")
     public void close() {
+        if (httpClient == null) return;
+
+        Dispatcher dispatcher = httpClient.dispatcher();
+        dispatcher.executorService().shutdown(); // 停止接收新请求
+
+        try {
+            if (!dispatcher.executorService().awaitTermination(connectTimeout, TimeUnit.MILLISECONDS)) {
+                logger.warn("Execute[{}] still has active requests after {} ms", appName, connectTimeout);
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            logger.warn("Execute[{}] closing interrupted", appName);
+        }
+
+        // 清理连接池和缓存
         httpClient.connectionPool().evictAll();
-        config = null;
+        if (httpClient.cache() != null) {
+            try {
+                httpClient.cache().close();
+            } catch (IOException e) {
+                logger.warn("Error closing http cache", e);
+            }
+        }
+
+        httpClient = null;
     }
 }

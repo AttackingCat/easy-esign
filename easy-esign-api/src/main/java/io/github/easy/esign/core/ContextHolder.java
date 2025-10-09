@@ -1,6 +1,6 @@
 package io.github.easy.esign.core;
 
-public class ContextHolder {
+public final class ContextHolder {
     private static final ThreadLocal<Execute> contextHolder = new ThreadLocal<>();
 
     static void setContext(Execute context) {

@@ -3,7 +3,7 @@ package io.github.easy.esign.config;
 import lombok.Data;
 
 @Data
-public class ESignConfig {
+public final class ESignConfig {
     String name;
     /**
      * appId
@@ -20,5 +20,13 @@ public class ESignConfig {
      */
     Boolean sandbox = false;
 
+    /**
+     * 代理
+     */
     Proxy proxy;
+
+    /**
+     * 请求超时时间，重新加载配置最大等待时长
+     */
+    Integer connectTimeout = 1000 * 20;
 }

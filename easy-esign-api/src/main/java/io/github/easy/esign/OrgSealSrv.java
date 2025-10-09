@@ -17,16 +17,6 @@ import io.github.easy.esign.utils.UrlUtil;
  */
 public class OrgSealSrv extends AbstractSrv {
 
-//    private static OrgSealSrv instance;
-//
-//    @Synchronized
-//    public static OrgSealSrv getInstance() {
-//        if (instance == null) {
-//            instance = new OrgSealSrv();
-//        }
-//        return instance;
-//    }
-
     /**
      * <a href="https://open.esign.cn/doc/opendoc/seal3/picwop">查询指定印章详情（机构）</a>
      */

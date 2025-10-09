@@ -15,16 +15,6 @@ import io.github.easy.esign.utils.UrlUtil;
  */
 public class OrgAuthSrv extends AbstractSrv {
 
-//    private static OrgAuthSrv instance;
-//
-//    @Synchronized
-//    public static OrgAuthSrv getInstance() {
-//        if (instance == null) {
-//            instance = new OrgAuthSrv();
-//        }
-//        return instance;
-//    }
-
     /**
      * 获取机构认证&授权页面链接
      */

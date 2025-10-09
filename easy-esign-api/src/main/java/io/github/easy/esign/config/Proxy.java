@@ -8,4 +8,8 @@ public class Proxy {
     String hostName;
 
     Integer port;
+
+    String username;
+
+    String password;
 }

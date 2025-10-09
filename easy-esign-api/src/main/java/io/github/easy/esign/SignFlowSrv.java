@@ -14,16 +14,6 @@ import io.github.easy.esign.utils.StrUtil;
  */
 public class SignFlowSrv extends AbstractSrv {
 
-//    private static SignFlowSrv instance;
-//
-//    @Synchronized
-//    public static SignFlowSrv getInstance() {
-//        if (instance == null) {
-//            instance = new SignFlowSrv();
-//        }
-//        return instance;
-//    }
-
     /**
      * 填写模板生成文件
      */
@@ -96,7 +86,7 @@ public class SignFlowSrv extends AbstractSrv {
             throw new ESignException("签约流程ID不能为空");
         }
         if (StrUtil.isNotBlank(revokeReq.getRevokeReason()) &&
-                revokeReq.getRevokeReason().getBytes().length > 400) {
+                revokeReq.getRevokeReason().length() >= 50) {
             throw new ESignException("撤销原因长度过长");
         }
         String path = "/v3/sign-flow/" + revokeReq.getSignFlowId() + "/revoke";

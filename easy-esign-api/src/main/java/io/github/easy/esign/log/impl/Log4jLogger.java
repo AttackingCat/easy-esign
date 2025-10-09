@@ -10,7 +10,8 @@ public class Log4jLogger implements Logger {
     private final Object logger;
     private final Method debugMethod, infoMethod, warnMethod, errorMethod;
 
-    private Log4jLogger(Object logger, Method debugMethod, Method infoMethod, Method warnMethod, Method errorMethod) {
+    private Log4jLogger(Object logger, Method debugMethod, Method infoMethod,
+                        Method warnMethod, Method errorMethod) {
         this.logger = logger;
         this.debugMethod = debugMethod;
         this.infoMethod = infoMethod;
@@ -32,36 +33,46 @@ public class Log4jLogger implements Logger {
         }
     }
 
+    // ---------- helper ----------
+    private String withCaller(String message) {
+        return "[" + findCaller() + "] " + message;
+    }
+
+    private String findCaller() {
+        StackTraceElement[] stack = Thread.currentThread().getStackTrace();
+        for (StackTraceElement e : stack) {
+            String cls = e.getClassName();
+            if (!cls.startsWith("io.github.easy.esign.log.impl") &&
+                    !cls.startsWith("java.") &&
+                    !cls.startsWith("jdk.")) {
+                // 模仿 log4j %l 的格式：full.class.method(file:line)
+                String file = e.getFileName() == null ? "UnknownSource" : e.getFileName();
+                int line = e.getLineNumber();
+                return cls + "." + e.getMethodName() + "(" + file + ":" + line + ")";
+            }
+        }
+        return "unknown";
+    }
+
+    // ---------- log methods ----------
     @Override
     public void debug(String message) {
-        try {
-            debugMethod.invoke(logger, message);
-        } catch (Throwable ignored) {
-        }
+        invoke(debugMethod, withCaller(message));
     }
 
     @Override
     public void info(String message) {
-        try {
-            infoMethod.invoke(logger, message);
-        } catch (Throwable ignored) {
-        }
+        invoke(infoMethod, withCaller(message));
     }
 
     @Override
     public void warn(String message) {
-        try {
-            warnMethod.invoke(logger, message);
-        } catch (Throwable ignored) {
-        }
+        invoke(warnMethod, withCaller(message));
     }
 
     @Override
     public void error(String message) {
-        try {
-            errorMethod.invoke(logger, message);
-        } catch (Throwable ignored) {
-        }
+        invoke(errorMethod, withCaller(message));
     }
 
     @Override
@@ -82,5 +93,12 @@ public class Log4jLogger implements Logger {
     @Override
     public void error(String format, Object... arg) {
         error(StrUtil.format(format, arg));
+    }
+
+    private void invoke(Method method, String msg) {
+        try {
+            method.invoke(logger, msg);
+        } catch (Throwable ignored) {
+        }
     }
 }

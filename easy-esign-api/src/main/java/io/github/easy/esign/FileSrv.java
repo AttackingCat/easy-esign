@@ -25,17 +25,6 @@ import static io.github.easy.esign.constant.ContentType.PDF_CT;
  */
 public class FileSrv extends AbstractSrv {
 
-//    private static FileSrv instance;
-//
-//    @Synchronized
-//    public static FileSrv getInstance() {
-//        if (instance == null) {
-//            instance = new FileSrv();
-//        }
-//        return instance;
-//    }
-
-
     /**
      * 上传本地文件step1
      */

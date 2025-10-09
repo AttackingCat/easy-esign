@@ -12,16 +12,6 @@ import io.github.easy.esign.struct.doc.resp.DocTemplatesResp;
  */
 public class DocTemplateSrv extends AbstractSrv {
 
-//    private static DocTemplateSrv instance;
-//
-//    @Synchronized
-//    public static DocTemplateSrv getInstance() {
-//        if (instance == null) {
-//            instance = new DocTemplateSrv();
-//        }
-//        return instance;
-//    }
-
     /**
      * 查询合同模板中控件详情
      *
