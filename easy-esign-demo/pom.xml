@@ -45,11 +45,17 @@
         <dependency>
             <groupId>io.github.attackingcat</groupId>
             <artifactId>easy-esign-starter</artifactId>
-            <version>1.0.4</version>
+            <version>1.1.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.aliyun.openservices</groupId>
+            <artifactId>aliyun-log-log4j-appender</artifactId>
+            <version>0.1.13</version>
         </dependency>
 
     </dependencies>

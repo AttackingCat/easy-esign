@@ -2,17 +2,11 @@ spring:
   application:
     name: demo
 esign-v3:
-  print-banner: true
-  default-config-name: app1
   configs:
     - name: app1
       app-id: your app id
       secret: your app secret
       sandbox: true
-    - name: app2
-      app-id: your app id
-      secret: your app secret
-      sandbox: false
 server:
   port: 8080
   servlet:

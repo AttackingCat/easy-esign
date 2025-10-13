@@ -1,5 +1,6 @@
 package io.github.easy.esign;
 
+import io.github.easy.esign.core.AbstractSrv;
 import io.github.easy.esign.error.ESignException;
 import io.github.easy.esign.struct.ESignResp;
 import io.github.easy.esign.struct.file.req.FileUrlReq;
@@ -23,17 +24,6 @@ import static io.github.easy.esign.constant.ContentType.PDF_CT;
  * 文件&模板
  */
 public class FileSrv extends AbstractSrv {
-
-//    private static FileSrv instance;
-//
-//    @Synchronized
-//    public static FileSrv getInstance() {
-//        if (instance == null) {
-//            instance = new FileSrv();
-//        }
-//        return instance;
-//    }
-
 
     /**
      * 上传本地文件step1

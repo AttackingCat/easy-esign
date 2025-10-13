@@ -1,5 +1,6 @@
 package io.github.easy.esign;
 
+import io.github.easy.esign.core.AbstractSrv;
 import io.github.easy.esign.struct.ESignResp;
 import io.github.easy.esign.struct.auth.req.OrgAuthReq;
 import io.github.easy.esign.struct.auth.req.OrgIdentityInfoReq;
@@ -13,16 +14,6 @@ import io.github.easy.esign.utils.UrlUtil;
  * 授权认证
  */
 public class OrgAuthSrv extends AbstractSrv {
-
-//    private static OrgAuthSrv instance;
-//
-//    @Synchronized
-//    public static OrgAuthSrv getInstance() {
-//        if (instance == null) {
-//            instance = new OrgAuthSrv();
-//        }
-//        return instance;
-//    }
 
     /**
      * 获取机构认证&授权页面链接

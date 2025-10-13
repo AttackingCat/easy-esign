@@ -8,6 +8,6 @@ public class CustomerESignAdapterImpl implements ESignAppNameAdapter {
 
     @Override
     public String adaptation() {
-        return "app123";
+        return "your app";
     }
 }
