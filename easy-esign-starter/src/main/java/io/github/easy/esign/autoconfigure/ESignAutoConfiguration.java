@@ -22,7 +22,8 @@ public class ESignAutoConfiguration {
     @Bean
     public DefaultPointcutAdvisor switchESignAppAdvisor(ApplicationContext context) {
         DefaultPointcutAdvisor advisor = new DefaultPointcutAdvisor();
-        advisor.setPointcut(new AnnotationMatchingPointcut(SwitchESignApp.class));
+        // 支持类级别和方法级别的注解，方法级别优先级更高
+        advisor.setPointcut(new AnnotationMatchingPointcut(SwitchESignApp.class, SwitchESignApp.class));
         advisor.setAdvice(new SwitchESignAppInterceptor(context));
         return advisor;
     }
