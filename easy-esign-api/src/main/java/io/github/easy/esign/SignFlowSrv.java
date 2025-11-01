@@ -55,6 +55,14 @@ public class SignFlowSrv extends AbstractSrv {
     }
 
     /**
+     * 获取填写页面链接
+     */
+    public ESignResp<SignFlowDraftUrlResp> draftUrl(SignFlowDraftUrlReq request) {
+        String path = "/v3/sign-flow/" + request.getSignFlowId() + "/draft-url";
+        return execute().post(path, request, SignFlowDraftUrlResp.class);
+    }
+
+    /**
      * 查询签署流程详情
      */
     public ESignResp<SignFlowDetailResp> detail(String signFlowId) {
