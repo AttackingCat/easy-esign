@@ -52,19 +52,19 @@ ESignManager.loadConfigs(new ESignConfigs());
 ```java
 
 @Autowired
-private ESignOrgAuthSrv ESignOrgAuthSrv;
+private OrgAuthSrv orgAuthSrv;
 
 @GetMapping("/info")
 public Object demo01(@RequestBody OrgIdentityInfoReq request) {
-    return ESignOrgAuthSrv.identityInfo(request);
+    return orgAuthSrv.identityInfo(request);
 }
 ```
 
 - 其他
 
-``` java
-ESignOrgAuthSrv signOrgAuthSrv = ESignOrgAuthSrv.getInstance();
-ESignResp<OrgIdentityInfoResp> orgIdentityInfoResponseESignResp = signOrgAuthSrv.identityInfo(orgIdentityInfoReq);
+```java
+OrgAuthSrv orgAuthSrv = new OrgAuthSrv();
+ESignResp<OrgIdentityInfoResp> orgIdentityInfoResponseESignResp = orgAuthSrv.identityInfo(orgIdentityInfoReq);
 ```
 
 #### 多APP切换
@@ -83,16 +83,12 @@ ESignResp<OrgIdentityInfoResp> orgIdentityInfoResponseESignResp = signOrgAuthSrv
 - 编程式
 
 ```java
-ESignOrgAuthSrv orgAuthSrv = ESignOrgAuthSrv.getInstance();
-ESignManager.
-
-switchExecute("app1");
+OrgAuthSrv orgAuthSrv = new OrgAuthSrv();
+ESignManager.switchExecute("app1");
 
 //业务逻辑：
 ESignResp<OrgIdentityInfoResp> resp = orgAuthSrv.identityInfo(request);
-ESignManager.
-
-clearExecute();
+ESignManager.clearExecute();
 ```
 
 ### 依赖引入（beta）
