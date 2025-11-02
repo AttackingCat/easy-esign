@@ -15,7 +15,7 @@
     <artifactId>easy-esign-api</artifactId>
     <packaging>jar</packaging>
     <groupId>io.github.attackingcat</groupId>
-    <version>1.1.1</version>
+    <version>1.1.2</version>
 
     <dependencies>
         <dependency>
