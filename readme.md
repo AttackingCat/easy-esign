@@ -105,7 +105,7 @@ maven:
 <dependency>
     <groupId>io.github.attackingcat</groupId>
     <artifactId>easy-esign-starter</artifactId>
-    <version>1.1.1</version>
+    <version>1.1.3</version>
 </dependency>
 ```
 
