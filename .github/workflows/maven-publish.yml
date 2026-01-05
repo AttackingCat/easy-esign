@@ -10,12 +10,18 @@ jobs:
     runs-on: ubuntu-latest
     environment: MAVEN_PUBLISH
 
+    strategy:
+      matrix:
+        module:
+          - easy-esign-api
+          - easy-esign-starter
+
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
+          distribution: temurin
           java-version: '8'
           server-id: central
           server-username: CENTRAL_USERNAME
@@ -23,13 +29,9 @@ jobs:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg-passphrase: GPG_PASSPHRASE
 
-      - name: Set version from tag
-        run: |
-          VERSION=${GITHUB_REF#refs/tags/v}
-          mvn versions:set -DnewVersion=$VERSION -DgenerateBackupPoms=false
-
-      - name: Deploy
-        run: mvn clean deploy -P release
+      - name: Publish ${{ matrix.module }}
+        working-directory: ${{ matrix.module }}
+        run: mvn clean deploy
         env:
           CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
           CENTRAL_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
