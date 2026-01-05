@@ -8,6 +8,7 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    environment: MAVEN_PUBLISH
 
     steps:
       - uses: actions/checkout@v4
