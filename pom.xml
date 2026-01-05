@@ -104,21 +104,14 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9.1</version>
+                <version>3.4.1</version>
                 <configuration>
-                    <javadocExecutable>${java.home}/bin</javadocExecutable>
-                    <additionalparam>-Xdoclint:none</additionalparam>
+                    <failOnError>false</failOnError> <!-- 不阻塞构建 -->
+                    <additionalJOptions>
+                        <additionalJOption>-Xdoclint:none</additionalJOption> <!-- 忽略 JDK 11+ 严格检查 -->
+                    </additionalJOptions>
                 </configuration>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
-            <!-- Javadoc -->
             <!-- Gpg Signature -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
